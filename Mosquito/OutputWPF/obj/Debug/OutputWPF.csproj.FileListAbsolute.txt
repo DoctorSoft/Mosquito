@@ -1,7 +1,0 @@
-D:\Project\Mosquito\Mosquito\OutputWPF\bin\Debug\OutputWPF.dll
-D:\Project\Mosquito\Mosquito\OutputWPF\bin\Debug\OutputWPF.pdb
-D:\Project\Mosquito\Mosquito\OutputWPF\obj\Debug\OutputWPF.dll
-D:\Project\Mosquito\Mosquito\OutputWPF\obj\Debug\OutputWPF.pdb
-D:\Project\Mosquito\Mosquito\OutputWPF\bin\Debug\Input.dll
-D:\Project\Mosquito\Mosquito\OutputWPF\bin\Debug\Input.pdb
-D:\Project\Mosquito\Mosquito\OutputWPF\obj\Debug\OutputWPF.csprojResolveAssemblyReference.cache
