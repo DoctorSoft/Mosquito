@@ -30,7 +30,7 @@ namespace Mosquito
         public MainWindow()
         {
             calculatorService = new CalculatorService(new InputDataProviderStub());
-            data = calculatorService.GetDefault();
+            //data = calculatorService.GetDefault();
             InitializeComponent();
         }
     }
