@@ -10,7 +10,7 @@ namespace Input.Implementation
         {
             return new InputData
             {
-                Cors = new List<CordIm>
+                Cords = new List<CordIm>
                 {
                     new CordIm {Name = "Шнур Белый", PricePerCount = (decimal) 22.5},
                     new CordIm {Name = "Шнур Чёрный", PricePerCount = (decimal) 2.5},

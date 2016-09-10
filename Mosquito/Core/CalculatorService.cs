@@ -15,17 +15,31 @@ namespace Core
 
         public OutputWpfData GetDefault()
         {
-            throw new System.NotImplementedException();
+            var inputData = inputDataProvider.GetInputData();
+
+            return new OutputWpfData
+            {
+                Profiles = inputData.Profiles,
+                CrossProfiles = inputData.CrossProfiles,
+                Nets = inputData.Nets,
+                Cords = inputData.Cords,
+                ExtraDetails = inputData.ExtraDetails,
+                WorkPrice = inputData.Settings.WorkPrice,
+                TrashPrice = inputData.Settings.TrashPercent,
+                OtherSpendingPrice = inputData.Settings.OtherSpendingPrice,
+            };
         }
 
         public OutputWpfData ChangeWidth(decimal width, OutputWpfData oldData)
         {
-            throw new System.NotImplementedException();
+            oldData.Width = width;
+            return oldData;
         }
 
-        public OutputWpfData ChangeHeight(decimal width, OutputWpfData oldData)
+        public OutputWpfData ChangeHeight(decimal heigth, OutputWpfData oldData)
         {
-            throw new System.NotImplementedException();
+            oldData.Height = heigth;
+            return oldData;
         }
 
         public OutputWpfData ChangeNet(NetIm net, OutputWpfData oldData)
