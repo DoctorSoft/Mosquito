@@ -2,9 +2,12 @@
 {
     public enum RowName
     {
-        Name = 1,
-        PricePerCount = 2,
-        Value = 2,
-        Measure = 3
+        Header = 1,
+        StartData = 2,
+        WorkPrice = 2,
+        TrashPercent = 3,
+        OtherSpending = 4,
+        ProfileTolerance = 5,
+        CrossProfileTolerance = 6
     }
 }

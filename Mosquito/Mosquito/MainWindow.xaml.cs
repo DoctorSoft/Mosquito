@@ -21,7 +21,7 @@ namespace Mosquito
 
         public MainWindow()
         {
-            calculatorService = new CalculatorService(new InputDataProviderStub());
+            calculatorService = new CalculatorService(new InputDataProvider("mosdb.xlsx"));
             InitializeComponent();
             data = calculatorService.GetDefault();
             RefreshFormValues(data);

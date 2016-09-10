@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\CellName.cs" />
+    <Compile Include="Constants\ColumnName.cs" />
     <Compile Include="Constants\RowName.cs" />
     <Compile Include="Constants\SheetNumber.cs" />
     <Compile Include="Implementation\InputDataProvider.cs" />
