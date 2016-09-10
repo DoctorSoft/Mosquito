@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Core;
+using Input.Implementation;
 
 namespace Mosquito
 {
@@ -20,8 +22,11 @@ namespace Mosquito
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ICalculatorService calculatorService;
+
         public MainWindow()
         {
+            calculatorService = new CalculatorService(new InputDataProviderStub());
             InitializeComponent();
         }
     }

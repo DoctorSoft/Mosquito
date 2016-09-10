@@ -94,9 +94,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{83f926d3-f32a-40c7-91dc-4881cbb07693}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Input\Input.csproj">
       <Project>{424639dd-a897-4af9-83bb-5b1b1ba2903a}</Project>
       <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OutputWPF\OutputWPF.csproj">
+      <Project>{42840944-20b8-4072-bdf9-bb1008e77569}</Project>
+      <Name>OutputWPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
