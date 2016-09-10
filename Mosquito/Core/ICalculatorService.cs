@@ -1,4 +1,5 @@
-﻿using OutputWPF.OutputWPFModels;
+﻿using Input.InputModels;
+using OutputWPF.OutputWPFModels;
 
 namespace Core
 {
@@ -10,10 +11,10 @@ namespace Core
 
         OutputWpfData ChangeHeight(decimal width, OutputWpfData oldData);
 
-        OutputWpfData ChangeNet(CurrentNet net, OutputWpfData oldData);
+        OutputWpfData ChangeNet(NetIm net, OutputWpfData oldData);
 
-        OutputWpfData AddExtraDetail(CurrentExtraDetail currentExtraDetail, OutputWpfData oldData);
+        OutputWpfData AddExtraDetail(ExtraDetailIm extraDetail, int count, OutputWpfData oldData);
 
-        OutputWpfData RemoveExtraDetail(CurrentExtraDetail currentExtraDetail, OutputWpfData oldData);
+        OutputWpfData RemoveExtraDetail(ExtraDetailIm extraDetail, OutputWpfData oldData);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Input.Interfaces;
+﻿using Input.InputModels;
+using Input.Interfaces;
 using OutputWPF.OutputWPFModels;
 
 namespace Core
@@ -27,17 +28,17 @@ namespace Core
             throw new System.NotImplementedException();
         }
 
-        public OutputWpfData ChangeNet(CurrentNet net, OutputWpfData oldData)
+        public OutputWpfData ChangeNet(NetIm net, OutputWpfData oldData)
         {
             throw new System.NotImplementedException();
         }
 
-        public OutputWpfData AddExtraDetail(CurrentExtraDetail currentExtraDetail, OutputWpfData oldData)
+        public OutputWpfData AddExtraDetail(ExtraDetailIm extraDetail, int count, OutputWpfData oldData)
         {
             throw new System.NotImplementedException();
         }
 
-        public OutputWpfData RemoveExtraDetail(CurrentExtraDetail currentExtraDetail, OutputWpfData oldData)
+        public OutputWpfData RemoveExtraDetail(ExtraDetailIm extraDetail, OutputWpfData oldData)
         {
             throw new System.NotImplementedException();
         }

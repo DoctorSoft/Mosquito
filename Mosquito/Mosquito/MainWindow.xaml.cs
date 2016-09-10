@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Core;
 using Input.Implementation;
+using OutputWPF.OutputWPFModels;
 
 namespace Mosquito
 {
@@ -24,9 +25,12 @@ namespace Mosquito
     {
         private readonly ICalculatorService calculatorService;
 
+        private readonly OutputWpfData data;
+
         public MainWindow()
         {
             calculatorService = new CalculatorService(new InputDataProviderStub());
+            data = calculatorService.GetDefault();
             InitializeComponent();
         }
     }
