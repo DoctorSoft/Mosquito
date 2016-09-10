@@ -24,13 +24,13 @@ namespace Mosquito
             calculatorService = new CalculatorService(new InputDataProviderStub());
             InitializeComponent();
             data = calculatorService.GetDefault();
-            SetDefaultValues(data);
-            InitializeComponent();
+            RefreshFormValues(data);
         }
 
-        private void SetDefaultValues(OutputWpfData outputData)
+        private void RefreshFormValues(OutputWpfData outputData)
         {
             ProfileComboBox.ItemsSource = outputData.Profiles.Select(model => model.Name);
+            //if(currentProfile != null)
             ProfileComboBox.SelectedIndex = 0;
             var currentProfile = outputData.Profiles.FirstOrDefault(model => model.Name != null);
             if (currentProfile != null)

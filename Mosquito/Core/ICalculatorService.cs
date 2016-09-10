@@ -13,6 +13,8 @@ namespace Core
 
         OutputWpfData ChangeNet(NetIm net, OutputWpfData oldData);
 
+        OutputWpfData ChangeCord(CordIm cord, OutputWpfData oldData);
+
         OutputWpfData AddExtraDetail(ExtraDetailIm extraDetail, int count, OutputWpfData oldData);
 
         OutputWpfData RemoveExtraDetail(ExtraDetailIm extraDetail, OutputWpfData oldData);

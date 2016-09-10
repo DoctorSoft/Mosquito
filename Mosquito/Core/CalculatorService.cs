@@ -47,6 +47,11 @@ namespace Core
             throw new System.NotImplementedException();
         }
 
+        public OutputWpfData ChangeCord(CordIm cord, OutputWpfData oldData)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public OutputWpfData AddExtraDetail(ExtraDetailIm extraDetail, int count, OutputWpfData oldData)
         {
             throw new System.NotImplementedException();

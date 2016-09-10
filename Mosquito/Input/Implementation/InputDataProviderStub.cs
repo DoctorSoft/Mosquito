@@ -39,6 +39,8 @@ namespace Input.Implementation
                     new ExtraDetailIm {Name = "Крепление Белое", PricePerCount = (decimal) 3.5},
                     new ExtraDetailIm {Name = "Ручка Эфиопская", PricePerCount = (decimal) 0.1},
                     new ExtraDetailIm {Name = "Кронштейн Индусский", PricePerCount = (decimal) 5.5},
+                    new ExtraDetailIm {Name = "Ручка Эфиопская", PricePerCount = (decimal) 0.1},
+                    new ExtraDetailIm {Name = "Кронштейн Индусский", PricePerCount = (decimal) 5.5},
                 },
                 Settings = new SettingsIm
                 {
