@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Core;
 using Input.Implementation;
 using Input.InputModels;
+using Mosquito.Components;
+using Mosquito.Models;
 using OutputWPF.OutputWPFModels;
 
 namespace Mosquito
@@ -25,99 +28,185 @@ namespace Mosquito
             calculatorService = new CalculatorService(new InputDataProvider("mosdb.xlsx"));
             InitializeComponent();
             data = calculatorService.GetDefault();
-            RefreshFormValues(data);
+            RefreshFormValues();
         }
 
-        private void SetProductData<TProductIm>(ComboBox comboBox, List<TProductIm> products, CurrentProduct currentProduct)
+        private void InitExtraDetailsGridBinding()
+        {
+            var items = data.CurrentExtraDetails.Select(im => new ExtraDetailViewModel
+            {
+                Name = im.Name,
+                Price = im.Price,
+                Count = im.Count,
+                NameList = data.ExtraDetails.Select(detailIm => detailIm.Name).ToList(),
+                ItemId = im.Id
+            });
+
+            ExtraDetailsDataGrid.Items.Clear();
+            foreach (var item in items)
+            {
+                ExtraDetailsDataGrid.Items.Add(item);
+            }
+        }
+
+        private void SetProductData<TProductIm>(ComboBox comboBox, Label sizeLabel, Label priceLabel, List<TProductIm> products, CurrentProduct currentProduct)
             where TProductIm : ProductIm
         {
             comboBox.ItemsSource = products.Select(im => im.Name);
             comboBox.SelectedIndex = comboBox.Items.IndexOf(currentProduct.Name);
-        }
 
-        private void RefreshFormValues(OutputWpfData outputData)
-        {
-            SetProductData(ProfileComboBox, outputData.Profiles, outputData.CurrentProfile);
-            SetProductData(CrossProfileComboBox, outputData.CrossProfiles, outputData.CurrentCrossProfile);
-            SetProductData(CordComboBox, outputData.Cords, outputData.CurrentCord);
-            SetProductData(NetComboBox, outputData.Nets, outputData.CurrentNet);
-
-            WorkPriceTextBox.Text = outputData.WorkPrice.ToString("G");
-
-            TrashPriceTextBox.Text = outputData.TrashPrice.ToString("G");
-
-            OtherPendingTextBox.Text = outputData.OtherSpendingPrice.ToString("G");
-
-            if (outputData.ExtraDetails != null)
+            if (sizeLabel == null)
             {
-                int i = 0;
-                foreach (var extraDetail in outputData.ExtraDetails)
-                {
-                    CreateNewExtraDetailField(extraDetail, i);
-                    i++;
-                }
+                return;
             }
+
+            sizeLabel.Content = currentProduct.Count;
+            priceLabel.Content = currentProduct.Price;
         }
 
-        private void CreateNewExtraDetailField(ExtraDetailIm extraDetail, int count)
+        private void RefreshFormValues()
         {
-            const int indent = 30;
-            double otherPendingTextBoxPositionTop = OtherPendingTextBox.Margin.Top + indent;
-            if (count != 0)
+            HeightSingleUpDown.Value = (float?)data.Height;
+            WeigthSingleUpDown.Value = (float?)data.Width;
+
+            SetProductData(ProfileComboBox, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
+            SetProductData(CrossProfileComboBox, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
+            SetProductData(NetComboBox, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
+            SetProductData(CordComboBox, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
+
+            InitExtraDetailsGridBinding();
+        }
+
+        private void HeightSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
             {
-                otherPendingTextBoxPositionTop += count * indent;
+                return;
             }
-            double textBoxPositionLeft = TrashPriceTextBox.Margin.Left;
-            double textBoxHeight = TrashPriceTextBox.Height;
-            double textBoxWidth = TrashPriceTextBox.Width;
-            double labelPositionLeft = HeighLabel.Margin.Left;
-            double AdditionallabelPositionLeft = AdditionalHeighLabel.Margin.Left;
-            
-            var extraDetailNameLabel = new Label
-            {
-                Content = extraDetail.Name,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(labelPositionLeft, otherPendingTextBoxPositionTop, 0, 0)
-            };
 
-            var extraDetailTextBox= new TextBox
-            {
-                Name = "ExtraDetailTextBox_" + count,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                Height = textBoxHeight,
-                Width = textBoxWidth,
-                Margin = new Thickness(textBoxPositionLeft, otherPendingTextBoxPositionTop, 0, 0)
-            };
-
-            var extraDetailMeasureLabel = new Label
-            {
-                Content = "шт.",
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(AdditionallabelPositionLeft, otherPendingTextBoxPositionTop, 0, 0)
-            };
-
-            MailGrid.Children.Add(extraDetailNameLabel);
-            MailGrid.Children.Add(extraDetailTextBox);
-            MailGrid.Children.Add(extraDetailMeasureLabel);
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeHeight(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
         }
 
-        private void HeighTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void WeigthSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            decimal currentHeight = 0;
-            if (HeighTextBox.Text != null)
-                currentHeight = Convert.ToDecimal(HeighTextBox.Text);
-            calculatorService.ChangeHeight(currentHeight, data);
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeWidth(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
         }
 
-        private void WeigthTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            decimal currentWeigth = 0;
-            if (WeigthTextBox.Text != null)
-                currentWeigth = Convert.ToDecimal(WeigthTextBox.Text);
-            calculatorService.ChangeHeight(currentWeigth, data);
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeProfile(newValue, data);
+            RefreshFormValues();
+        }
+
+        private void CrossProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeCrossProfile(newValue, data);
+            RefreshFormValues();
+        }
+
+        private void NetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeNet(newValue, data);
+            RefreshFormValues();
+        }
+
+        private void CordComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeCord(newValue, data);
+            RefreshFormValues();
+        }
+
+        private void AddExtraDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            data = calculatorService.AddExtraDetail(data);
+            RefreshFormValues();
+        }
+
+        private void RemoveExtraDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var button = (GridRowButton) sender;
+            var itemId = button.ItemId;
+
+            data = calculatorService.RemoveExtraDetail(itemId, data);
+            RefreshFormValues();
+        }
+
+        private void ExtraDetailCount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            var element = (GridRowSingleUpDown) sender;
+            var itemId = element.ItemId;
+
+            if (itemId == Guid.Empty)
+            {
+                return;
+            }
+
+            data = calculatorService.UpdateExtraDetailCount(itemId, decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+
+        private void ExtraDetailName_ValueChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.AddedItems[0] as string;
+            var element = (GridRowComboBox)sender;
+            var itemId = element.ItemId;
+
+            if (itemId == Guid.Empty)
+            {
+                return;
+            }
+
+            data = calculatorService.UpdateExtraDetailName(itemId, newValue, data);
+            RefreshFormValues();
         }
     }
 }

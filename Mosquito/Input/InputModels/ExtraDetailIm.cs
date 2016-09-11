@@ -1,4 +1,6 @@
-﻿namespace Input.InputModels
+﻿using System;
+
+namespace Input.InputModels
 {
     public class ExtraDetailIm: ProductIm
     {
