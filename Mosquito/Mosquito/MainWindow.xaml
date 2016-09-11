@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:OutputWPFModels="clr-namespace:OutputWPF.OutputWPFModels;assembly=OutputWPF" x:Class="Mosquito.MainWindow"
         mc:Ignorable="d"
-        Title="Колькулятор Стоимости москитных сеток " Height="536" Width="565">
-    <Grid x:Name="MailGrid" Margin="0,0,2,0">
+        Title="Колькулятор Стоимости москитных сеток " Height="536" Width="765">
+    <Grid x:Name="MailGrid" HorizontalAlignment="Left" Width="743">
         <!-- height elements -->
         <Label x:Name="HeighLabel" Content="Ширина:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
         <TextBox x:Name="HeighTextBox" HorizontalAlignment="Left" Height="23" Margin="150,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyUp="HeighTextBox_KeyUp"/>

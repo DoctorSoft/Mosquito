@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +18,7 @@ namespace Mosquito
     {
         private readonly ICalculatorService calculatorService;
 
-        private readonly OutputWpfData data;
+        private OutputWpfData data;
 
         public MainWindow()
         {
@@ -27,48 +28,19 @@ namespace Mosquito
             RefreshFormValues(data);
         }
 
+        private void SetProductData<TProductIm>(ComboBox comboBox, List<TProductIm> products, CurrentProduct currentProduct)
+            where TProductIm : ProductIm
+        {
+            comboBox.ItemsSource = products.Select(im => im.Name);
+            comboBox.SelectedIndex = comboBox.Items.IndexOf(currentProduct.Name);
+        }
+
         private void RefreshFormValues(OutputWpfData outputData)
         {
-            ProfileComboBox.ItemsSource = outputData.Profiles.Select(model => model.Name);
-            //if(currentProfile != null)
-            ProfileComboBox.SelectedIndex = 0;
-            var currentProfile = outputData.Profiles.FirstOrDefault(model => model.Name != null);
-            if (currentProfile != null)
-                outputData.CurrentProfile = new CurrentProfile
-                {
-                    Name = currentProfile.Name,
-                    Price = currentProfile.PricePerCount
-                };
-
-            CrossProfileComboBox.ItemsSource = outputData.CrossProfiles.Select(model => model.Name);
-            CrossProfileComboBox.SelectedIndex = 0;
-            var currentCrossProfile = outputData.Profiles.FirstOrDefault(model => model.Name != null);
-            if (currentCrossProfile != null)
-                outputData.CurrentCrossProfile = new CurrentCrossProfile
-                {
-                    Name = currentCrossProfile.Name,
-                    Price = currentCrossProfile.PricePerCount
-                };
-
-            NetComboBox.ItemsSource = outputData.Nets.Select(model => model.Name);
-            NetComboBox.SelectedIndex = 0;
-            var currentNet = outputData.Profiles.FirstOrDefault(model => model.Name != null);
-            if (currentNet != null)
-                outputData.CurrentNet = new CurrentNet
-                {
-                    Name = currentNet.Name,
-                    Price = currentNet.PricePerCount
-                };
-
-            CordComboBox.ItemsSource = outputData.Cords.Select(model => model.Name);
-            CordComboBox.SelectedIndex = 0;
-            var currentCord = outputData.Profiles.FirstOrDefault(model => model.Name != null);
-            if (currentCord != null)
-                outputData.CurrentCord = new CurrentCord
-                {
-                    Name = currentCord.Name,
-                    Price = currentCord.PricePerCount
-                };
+            SetProductData(ProfileComboBox, outputData.Profiles, outputData.CurrentProfile);
+            SetProductData(CrossProfileComboBox, outputData.CrossProfiles, outputData.CurrentCrossProfile);
+            SetProductData(CordComboBox, outputData.Cords, outputData.CurrentCord);
+            SetProductData(NetComboBox, outputData.Nets, outputData.CurrentNet);
 
             WorkPriceTextBox.Text = outputData.WorkPrice.ToString("G");
 
@@ -131,6 +103,7 @@ namespace Mosquito
             MailGrid.Children.Add(extraDetailTextBox);
             MailGrid.Children.Add(extraDetailMeasureLabel);
         }
+
         private void HeighTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             decimal currentHeight = 0;

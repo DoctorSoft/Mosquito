@@ -1,4 +1,6 @@
-﻿using Input.InputModels;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Input.InputModels;
 using Input.Interfaces;
 using OutputWPF.OutputWPFModels;
 
@@ -20,13 +22,31 @@ namespace Core
             return new OutputWpfData
             {
                 Profiles = inputData.Profiles,
+                CurrentProfile = new CurrentProfile
+                {
+                    Name = inputData.Profiles.FirstOrDefault().Name,  
+                },
                 CrossProfiles = inputData.CrossProfiles,
+                CurrentCrossProfile = new CurrentCrossProfile
+                {
+                    Name = inputData.CrossProfiles.FirstOrDefault().Name
+                },
                 Nets = inputData.Nets,
+                CurrentNet = new CurrentNet
+                {
+                    Name = inputData.Nets.FirstOrDefault().Name
+                },
                 Cords = inputData.Cords,
+                CurrentCord = new CurrentCord
+                {
+                    Name = inputData.Cords.FirstOrDefault().Name
+                },
                 ExtraDetails = inputData.ExtraDetails,
+                CurrentExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
-                TrashPrice = inputData.Settings.TrashPercent,
                 OtherSpendingPrice = inputData.Settings.OtherSpendingPrice,
+                Height = 600,
+                Width = 1700
             };
         }
 
