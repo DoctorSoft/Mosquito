@@ -7,7 +7,7 @@
     xmlns:components="clr-namespace:Mosquito.Components"
     x:Class="Mosquito.MainWindow"
         mc:Ignorable="d"
-        Title="Колькулятор Стоимости москитных сеток " Height="612" Width="729">
+        Title="Колькулятор Стоимости москитных сеток " Height="612" Width="729" ResizeMode="NoResize">
     <Grid x:Name="MailGrid" HorizontalAlignment="Left" Width="720" Margin="0,-3,0,1" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
@@ -60,10 +60,6 @@
         <Label Name="CordPriceLabel" HorizontalAlignment="Left" Margin="530,170,0,0" VerticalAlignment="Top"/>
         <Label Name="CordPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="565,170,0,0" VerticalAlignment="Top"/>
 
-        <Label Content="Итого:" HorizontalAlignment="Left" Margin="474,538,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <TextBox x:Name="TotalPriceTextBox" HorizontalAlignment="Left" Height="23" Margin="527,538,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-        <Label Content="р." HorizontalAlignment="Left" Margin="649,538,0,0" VerticalAlignment="Top"/>
-
         <!-- extra detail elements -->
         <StackPanel x:Name="ExtraDetailPanel" HorizontalAlignment="Left" Height="94" Margin="0,290,0,0" VerticalAlignment="Top" Width="517"/>
         <Grid HorizontalAlignment="Left" Height="51" Margin="459,523,0,0" VerticalAlignment="Top" Width="251" Background="Lavender" Panel.ZIndex="-1"/>
@@ -98,6 +94,27 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="23,218,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
+        
+        <!-- work price -->
+        <Label Content="Работа:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top"/>
+        <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="150,400,0,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="170,400,0,0" VerticalAlignment="Top"/>
 
+        <!-- trash price -->
+        <Label Content="Отходы:" HorizontalAlignment="Left" Margin="10,430,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="150,430,0,0" VerticalAlignment="Top"/>
+        <Label Content="(" HorizontalAlignment="Left" Margin="175,430,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="180,430,0,0" VerticalAlignment="Top"/>
+        <Label Content="%)" HorizontalAlignment="Left" Margin="200,430,0,0" VerticalAlignment="Top"/>
+
+        <!-- other price -->
+        <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="10,460,0,0" VerticalAlignment="Top"/>
+        <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="150,460,0,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="170,460,0,0" VerticalAlignment="Top"/>
+        
+        <!--total price-->
+        <Label Content="Итого:" HorizontalAlignment="Left" Margin="470,540,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="547,540,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="р." HorizontalAlignment="Left" Margin="601,540,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -68,6 +68,11 @@ namespace Mosquito
         {
             HeightSingleUpDown.Value = (float?)data.Height;
             WeigthSingleUpDown.Value = (float?)data.Width;
+            WorkPriceLabel.Content = (float?)data.WorkPrice;
+            TrashPercentLabel.Content = (float?) data.TrashPercent;
+            TrashPriceLabel.Content = (float?) data.TrashPrice;
+            OtherPendingLabel.Content = (float?) data.OtherSpendingPrice;
+            TotalPriceLabel.Content = (float?) data.TotalPrice;
 
             SetProductData(ProfileComboBox, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
             SetProductData(CrossProfileComboBox, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);

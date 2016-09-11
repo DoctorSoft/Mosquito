@@ -49,7 +49,7 @@ namespace Core
                 OtherSpendingPrice = inputData.Settings.OtherSpendingPrice,
                 Height = 600,
                 Width = 1700,
-                CrossProfileTolerance = inputData.Settings.OtherSpendingPrice,
+                CrossProfileTolerance = inputData.Settings.CrossProfileTolerance,
                 ProfileTolerance = inputData.Settings.ProfileTolerance,
                 TrashPercent = inputData.Settings.TrashPercent
             };
@@ -154,7 +154,7 @@ namespace Core
 
 
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
-            notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Width - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
+            notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
             var netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentNet.Name);
@@ -170,7 +170,20 @@ namespace Core
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
                 currentExtraDetail.Price = Math.Round(currentExtraDetail.Count * detailIm.PricePerCount, 2);
             }
-          
+           
+            notPricedOutputData.TrashPrice = Math.Round(((notPricedOutputData.CurrentProfile.Price + notPricedOutputData.CurrentCrossProfile.Price + notPricedOutputData.CurrentNet.Price + notPricedOutputData.CurrentCord.Price) * notPricedOutputData.TrashPercent / 100), 2);
+
+            var currentsSum = notPricedOutputData.CurrentProfile.Price +
+                                             notPricedOutputData.CurrentCrossProfile.Price + 
+                                             notPricedOutputData.CurrentNet.Price +
+                                             notPricedOutputData.CurrentCord.Price +
+                                             notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
+                                             notPricedOutputData.TrashPrice +
+                                             notPricedOutputData.WorkPrice + 
+                                             notPricedOutputData.OtherSpendingPrice;
+
+            notPricedOutputData.TotalPrice = currentsSum;
+
             return notPricedOutputData;
         }
     }
