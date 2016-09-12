@@ -27,8 +27,16 @@ namespace Mosquito
         {
             calculatorService = new CalculatorService(new InputDataProvider("mosdb.xlsx"));
             InitializeComponent();
-            data = calculatorService.GetDefault();
-            RefreshFormValues();
+            try
+            {
+                data = calculatorService.GetDefault();
+                RefreshFormValues();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong. Check you excel file");
+                Close();
+            }
         }
 
         private void InitExtraDetailsGridBinding()

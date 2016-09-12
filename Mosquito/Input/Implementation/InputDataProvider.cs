@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Input.Constants;
 using Input.InputModels;
@@ -18,39 +19,49 @@ namespace Input.Implementation
 
         public InputData GetInputData()
         {
+            Excel.Application excel;
+            Excel.Workbook workBook;
+
             var currentDirectory = Directory.GetCurrentDirectory();
             var path = Path.Combine(currentDirectory, fileName);
 
-            var excel = new Excel.Application();
-            var workBook = excel.Workbooks.Open(path);
+            excel = new Excel.Application();
+            workBook = excel.Workbooks.Open(path);
 
-            var profilesSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Profiles];
-            var profiles = ParseWorkSheet<ProfileIm>(profilesSheet);
-
-            var crossProfilesSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.CrossProfiles];
-            var crossProfiles = ParseWorkSheet<CrossProfileIm>(crossProfilesSheet);
-
-            var cordsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Cords];
-            var cords = ParseWorkSheet<CordIm>(cordsSheet);
-
-            var netsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Nets];
-            var nets = ParseWorkSheet<NetIm>(netsSheet);
-
-            var extraDetailsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.ExtraDetails];
-            var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
-
-            var settingsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Settings];
-            var settings = ParseSettings(settingsSheet);
-
-            return new InputData
+            try
             {
-                ExtraDetails = extraDetails,
-                CrossProfiles = crossProfiles,
-                Cords = cords,
-                Nets = nets,
-                Profiles = profiles,
-                Settings = settings
-            };
+                var profilesSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Profiles];
+                var profiles = ParseWorkSheet<ProfileIm>(profilesSheet);
+
+                var crossProfilesSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.CrossProfiles];
+                var crossProfiles = ParseWorkSheet<CrossProfileIm>(crossProfilesSheet);
+
+                var cordsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Cords];
+                var cords = ParseWorkSheet<CordIm>(cordsSheet);
+
+                var netsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Nets];
+                var nets = ParseWorkSheet<NetIm>(netsSheet);
+
+                var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
+                var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
+
+                var settingsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Settings];
+                var settings = ParseSettings(settingsSheet);
+
+                return new InputData
+                {
+                    ExtraDetails = extraDetails,
+                    CrossProfiles = crossProfiles,
+                    Cords = cords,
+                    Nets = nets,
+                    Profiles = profiles,
+                    Settings = settings
+                };
+            }
+            finally
+            {
+                workBook.Close(false);
+            }
         }
 
         public List<TProduct> ParseWorkSheet<TProduct>(Excel.Worksheet worksheet)
