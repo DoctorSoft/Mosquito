@@ -2,9 +2,10 @@
 {
     public enum ColumnName
     {
-        Name = 1,
-        PricePerCount = 2,
-        Value = 2,
-        Measure = 3
+        Id = 1, 
+        Name = 2,
+        PricePerCount = 3,
+        Value = 3,
+        Measure = 4
     }
 }

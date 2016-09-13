@@ -4,6 +4,7 @@ namespace Input.InputModels
 {
     public class InputData
     {
+        public List<SystemIm> Systems { get; set; } 
         public List<ProfileIm> Profiles { get; set; }
         public List<CrossProfileIm> CrossProfiles { get; set; }
         public List<NetIm> Nets { get; set; }

@@ -30,6 +30,9 @@ namespace Input.Implementation
 
             try
             {
+                var systemsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Systems];
+                var systems = ParseSystems(systemsSheet);
+
                 var profilesSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Profiles];
                 var profiles = ParseWorkSheet<ProfileIm>(profilesSheet);
 
@@ -56,6 +59,7 @@ namespace Input.Implementation
 
                 return new InputData
                 {
+                    Systems = systems,
                     ExtraDetails = extraDetails,
                     CrossProfiles = crossProfiles,
                     Cords = cords,
@@ -82,20 +86,26 @@ namespace Input.Implementation
             }
 
             var range = worksheet.UsedRange;
-            if (range == null) return products;
+            
+            if (range == null)
+            {
+                return products;
+            }
+
             var rowCount = range.Rows.Count;
 
             for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
             {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
                 var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
                 var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
 
-                if (name == null || price == null)
+                if (id == null || name == null || price == null)
                 {
                     continue;
                 }
 
-                products.Add(new TProduct{ Name = name.ToString(), PricePerCount = decimal.Parse(price.ToString()) });
+                products.Add(new TProduct{ Name = name.ToString(), PricePerCount = decimal.Parse(price.ToString()), Id = int.Parse(id.ToString())});
             }
 
             return products;
@@ -117,6 +127,39 @@ namespace Input.Implementation
             settings.WorkPrice = decimal.Parse((worksheet.Cells[(int)RowName.WorkPrice, (int)ColumnName.Value] as Excel.Range).Value.ToString());
 
             return settings;
+        }
+
+        public List<SystemIm> ParseSystems(Excel.Worksheet worksheet)
+        {
+            var systems = new List<SystemIm>();
+            if (worksheet == null)
+            {
+                return systems;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return systems;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+
+                if (id == null || name == null)
+                {
+                    continue;
+                }
+
+                systems.Add(new SystemIm { Name = name.ToString(), Id = int.Parse(id.ToString()) });
+            }
+
+            return systems;
         }
     }
 }

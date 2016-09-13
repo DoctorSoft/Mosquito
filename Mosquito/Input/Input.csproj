@@ -59,6 +59,7 @@
     <Compile Include="InputModels\ProductIm.cs" />
     <Compile Include="InputModels\ProfileIm.cs" />
     <Compile Include="InputModels\SettingsIm.cs" />
+    <Compile Include="InputModels\SystemIm.cs" />
     <Compile Include="Interfaces\IInputDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
