@@ -11,6 +11,8 @@ using Input.InputModels;
 using Mosquito.Components;
 using Mosquito.Models;
 using OutputWPF.OutputWPFModels;
+using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Mosquito
 {
@@ -57,19 +59,27 @@ namespace Mosquito
             }
         }
 
-        private void SetProductData<TProductIm>(ComboBox comboBox, Label sizeLabel, Label priceLabel, List<TProductIm> products, CurrentProduct currentProduct)
+        private void SetProductData<TProductIm>(ComboBox comboBox, SingleUpDown sizeSingleUpDown, Label sizeLabel, Label priceLabel, List<TProductIm> products, CurrentProduct currentProduct)
             where TProductIm : ProductIm
         {
             comboBox.ItemsSource = products.Select(im => im.Name);
             comboBox.SelectedIndex = comboBox.Items.IndexOf(currentProduct.Name);
 
-            if (sizeLabel == null)
+            if (sizeLabel == null && sizeSingleUpDown == null)
             {
                 return;
             }
 
-            sizeLabel.Content = currentProduct.Count;
+            if (sizeSingleUpDown == null)
+            {
+                sizeLabel.Content = currentProduct.Count;
+            }
+            else
+            {
+                sizeSingleUpDown.Value = (float)currentProduct.Count;
+            }
             priceLabel.Content = currentProduct.Price;
+
         }
 
         private void RefreshFormValues()
@@ -82,10 +92,12 @@ namespace Mosquito
             OtherPendingLabel.Content = (float?) data.OtherSpendingPrice;
             TotalPriceLabel.Content = (float?) data.TotalPrice;
 
-            SetProductData(ProfileComboBox, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
-            SetProductData(CrossProfileComboBox, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
-            SetProductData(NetComboBox, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
-            SetProductData(CordComboBox, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
+            SetProductData(ProfileComboBox, null, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
+            SetProductData(CrossProfileComboBox, null, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
+            SetProductData(NetComboBox, null, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
+            SetProductData(CordComboBox, null, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
+            SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
+            SetProductData(MountComboBox, MountCountSingleUpDown, null, MountPriceLabel, data.Mounts, data.CurrentMount);
 
             InitExtraDetailsGridBinding();
         }
@@ -219,6 +231,51 @@ namespace Mosquito
             }
 
             data = calculatorService.UpdateExtraDetailName(itemId, newValue, data);
+            RefreshFormValues();
+        }
+
+        private void AngleCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeAngleCount(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+
+        private void AngleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeAngle(newValue, data);
+            RefreshFormValues();
+        }
+        private void MountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeMountCount(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+
+        private void MountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeMount(newValue, data);
             RefreshFormValues();
         }
     }

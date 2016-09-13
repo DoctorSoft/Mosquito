@@ -43,6 +43,16 @@ namespace Core
                 {
                     Name = inputData.Cords.FirstOrDefault().Name
                 },
+                Angles = inputData.Angles,
+                CurrentAngle = new CurrentAngle
+                {
+                    Name = inputData.Angles.FirstOrDefault().Name
+                },
+                Mounts = inputData.Mounts,
+                CurrentMount = new CurrentMount
+                {
+                    Name = inputData.Mounts.FirstOrDefault().Name
+                },
                 ExtraDetails = inputData.ExtraDetails,
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
@@ -102,6 +112,30 @@ namespace Core
             {
                 Name = cordName
             };
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeAngle(string angleName, OutputWpfData oldData)
+        {
+            oldData.CurrentAngle.Name = angleName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeAngleCount(decimal angleCount, OutputWpfData oldData)
+        {
+            oldData.CurrentAngle.Count = angleCount;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeMount(string mountName, OutputWpfData oldData)
+        {
+            oldData.CurrentMount.Name = mountName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData)
+        {
+            oldData.CurrentMount.Count = mountCount;
             return Calculate(oldData);
         }
 
@@ -165,6 +199,12 @@ namespace Core
             notPricedOutputData.CurrentCord.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
 
+            var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
+            notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
+
+            var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
+            notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
+
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
@@ -177,6 +217,8 @@ namespace Core
                                              notPricedOutputData.CurrentCrossProfile.Price + 
                                              notPricedOutputData.CurrentNet.Price +
                                              notPricedOutputData.CurrentCord.Price +
+                                             notPricedOutputData.CurrentAngle.Price +
+                                             notPricedOutputData.CurrentMount.Price +
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 

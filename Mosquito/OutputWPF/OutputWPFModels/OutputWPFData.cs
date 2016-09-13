@@ -25,6 +25,14 @@ namespace OutputWPF.OutputWPFModels
 
         public CurrentCord CurrentCord { get; set; }
 
+        public List<AngleIm> Angles { get; set; }
+
+        public CurrentAngle CurrentAngle { get; set; }
+
+        public List<MountIm> Mounts { get; set; }
+
+        public CurrentMount CurrentMount { get; set; }
+
         public List<ExtraDetailIm> ExtraDetails { get; set; }
 
         public List<CurrentExtraDetail> CurrentExtraDetails { get; set; }

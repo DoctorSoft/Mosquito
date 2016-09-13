@@ -42,6 +42,12 @@ namespace Input.Implementation
                 var netsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Nets];
                 var nets = ParseWorkSheet<NetIm>(netsSheet);
 
+                var angelsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Angels];
+                var angels = ParseWorkSheet<AngleIm>(angelsSheet);
+                
+                var mountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Mounts];
+                var mounts = ParseWorkSheet<MountIm>(mountsSheet);
+
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
 
@@ -55,7 +61,9 @@ namespace Input.Implementation
                     Cords = cords,
                     Nets = nets,
                     Profiles = profiles,
-                    Settings = settings
+                    Settings = settings,
+                    Angles = angels,
+                    Mounts = mounts
                 };
             }
             finally

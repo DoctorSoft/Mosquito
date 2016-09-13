@@ -20,6 +20,14 @@ namespace Core
 
         OutputWpfData ChangeCord(string cordName, OutputWpfData oldData);
 
+        OutputWpfData ChangeAngle(string angleName, OutputWpfData oldData);
+
+        OutputWpfData ChangeAngleCount(decimal angleCount, OutputWpfData oldData);
+
+        OutputWpfData ChangeMount(string mountName, OutputWpfData oldData);
+
+        OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData);
+
         OutputWpfData AddExtraDetail(OutputWpfData oldData);
 
         OutputWpfData RemoveExtraDetail(Guid id, OutputWpfData oldData);

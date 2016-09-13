@@ -6,7 +6,9 @@
         CrossProfiles = 2,
         Nets = 3,
         Cords = 4,
-        ExtraDetails = 5,
-        Settings = 6
+        Angels = 5,
+        Mounts = 6,
+        ExtraDetails = 7,
+        Settings = 8
     }
 }
