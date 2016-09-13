@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Input.Constants;
 using Input.InputModels;
 using Input.Interfaces;
@@ -99,13 +100,20 @@ namespace Input.Implementation
                 var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
                 var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
                 var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
 
                 if (id == null || name == null || price == null)
                 {
                     continue;
                 }
 
-                products.Add(new TProduct{ Name = name.ToString(), PricePerCount = decimal.Parse(price.ToString()), Id = int.Parse(id.ToString())});
+                products.Add(new TProduct
+                {
+                    Name = name.ToString(), 
+                    PricePerCount = decimal.Parse(price.ToString()), 
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList() 
+                });
             }
 
             return products;

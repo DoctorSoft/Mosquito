@@ -6,6 +6,7 @@
         Name = 2,
         PricePerCount = 3,
         Value = 3,
-        Measure = 4
+        Measure = 4,
+        Systems = 4
     }
 }

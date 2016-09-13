@@ -1,4 +1,6 @@
-﻿namespace Input.InputModels
+﻿using System.Collections.Generic;
+
+namespace Input.InputModels
 {
     public class ProductIm
     {
@@ -7,5 +9,7 @@
         public string Name { get; set; }
 
         public decimal PricePerCount { get; set; }
+
+        public List<int> Systems { get; set; } 
     }
 }
