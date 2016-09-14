@@ -47,6 +47,7 @@
     <Compile Include="OutputWPFModels\CurrentNet.cs" />
     <Compile Include="OutputWPFModels\CurrentProduct.cs" />
     <Compile Include="OutputWPFModels\CurrentProfile.cs" />
+    <Compile Include="OutputWPFModels\CurrentSystem.cs" />
     <Compile Include="OutputWPFModels\OutputWPFData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

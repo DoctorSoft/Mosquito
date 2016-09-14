@@ -82,6 +82,12 @@ namespace Mosquito
 
         }
 
+        private void SetSystemData(ComboBox comboBox, List<SystemIm> systems, CurrentSystem currentSystem)
+        {
+            comboBox.ItemsSource = systems.Select(im => im.Name);
+            comboBox.SelectedIndex = comboBox.Items.IndexOf(currentSystem.Name);
+        }
+
         private void RefreshFormValues()
         {
             HeightSingleUpDown.Value = (float?)data.Height;
@@ -91,6 +97,8 @@ namespace Mosquito
             TrashPriceLabel.Content = (float?) data.TrashPrice;
             OtherPendingLabel.Content = (float?) data.OtherSpendingPrice;
             TotalPriceLabel.Content = (float?) data.TotalPrice;
+
+            SetSystemData(SystemComboBox, data.Systems, data.CurrentSystem);
 
             SetProductData(ProfileComboBox, null, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
             SetProductData(CrossProfileComboBox, null, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
@@ -277,6 +285,17 @@ namespace Mosquito
             var newValue = e.AddedItems[0] as string;
             data = calculatorService.ChangeMount(newValue, data);
             RefreshFormValues();
+        }
+
+        private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            //data = calculatorService.ChangeSystem(newValue, data);
+            //RefreshFormValues();
         }
     }
 }

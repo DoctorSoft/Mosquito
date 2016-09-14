@@ -12,6 +12,8 @@ namespace Core
 
         OutputWpfData ChangeHeight(decimal height, OutputWpfData oldData);
 
+        OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData);
+
         OutputWpfData ChangeProfile(string profileName, OutputWpfData oldData);
 
         OutputWpfData ChangeCrossProfile(string crossProfileName, OutputWpfData oldData);

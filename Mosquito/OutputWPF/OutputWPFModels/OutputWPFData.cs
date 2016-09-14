@@ -8,6 +8,9 @@ namespace OutputWPF.OutputWPFModels
         public decimal Width { get; set; }
 
         public decimal Height { get; set; }
+        public List<SystemIm> Systems { get; set; }
+
+        public CurrentSystem CurrentSystem { get; set; }
 
         public List<ProfileIm> Profiles { get; set; }
 
