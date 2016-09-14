@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Input.InputModels;
 using Input.Interfaces;
 using OutputWPF.OutputWPFModels;
@@ -10,17 +9,15 @@ namespace Core
 {
     public class CalculatorService : ICalculatorService
     {
-        private readonly IInputDataProvider inputDataProvider;
+        private readonly InputData inputData;
 
         public CalculatorService(IInputDataProvider inputDataProvider)
         {
-            this.inputDataProvider = inputDataProvider;
+            this.inputData = inputDataProvider.GetInputData(); 
         }
 
         public OutputWpfData GetDefault()
-        {
-            var inputData = inputDataProvider.GetInputData();
-
+        { 
             var defaultData = new OutputWpfData
             {
                 Systems = inputData.Systems,
@@ -86,7 +83,11 @@ namespace Core
 
         public OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData)
         {
-            throw new NotImplementedException();
+            oldData.CurrentSystem = new CurrentSystem
+            {
+                Name = systemName
+            };
+            return Calculate(oldData);
         }
 
         public OutputWpfData ChangeProfile(string profileName, OutputWpfData oldData)
@@ -190,34 +191,66 @@ namespace Core
             return Calculate(oldData);
         }
 
+        private OutputWpfData SetAllowedImProductsBySystem(OutputWpfData notPricedOutputData)
+        {
+            var systemIm = inputData.Systems.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentSystem.Name);
+
+            notPricedOutputData.Angles = inputData.Angles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Cords = inputData.Cords.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.CrossProfiles = inputData.CrossProfiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.ExtraDetails = inputData.ExtraDetails.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Mounts = inputData.Mounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
+            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
+
             var profileIm = notPricedOutputData.Profiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentProfile.Name);
+            profileIm = profileIm ?? notPricedOutputData.Profiles.FirstOrDefault();
+            notPricedOutputData.CurrentProfile.Name = profileIm.Name;
             notPricedOutputData.CurrentProfile.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentProfile.Price = Math.Round(notPricedOutputData.CurrentProfile.Count * profileIm.PricePerCount, 2);
-
-
+            
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
+            crossProfileIm = crossProfileIm ?? notPricedOutputData.CrossProfiles.FirstOrDefault();
+            notPricedOutputData.CurrentCrossProfile.Name = crossProfileIm.Name;
             notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
             var netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentNet.Name);
+            netIm = netIm ?? notPricedOutputData.Nets.FirstOrDefault();
+            notPricedOutputData.CurrentNet.Name = netIm.Name;
             notPricedOutputData.CurrentNet.Count = Math.Round(((notPricedOutputData.Width * notPricedOutputData.Height) / 1000000), 2);
             notPricedOutputData.CurrentNet.Price = Math.Round(notPricedOutputData.CurrentNet.Count * netIm.PricePerCount, 2);
 
             var cordIm = notPricedOutputData.Cords.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCord.Name);
+            cordIm = cordIm ?? notPricedOutputData.Cords.FirstOrDefault();
+            notPricedOutputData.CurrentCord.Name = cordIm.Name;
             notPricedOutputData.CurrentCord.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
 
             var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
+            angleIm = angleIm ?? notPricedOutputData.Angles.FirstOrDefault();
+            notPricedOutputData.CurrentAngle.Name = angleIm.Name;
             notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
 
             var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
+            mountIm = mountIm ?? notPricedOutputData.Mounts.FirstOrDefault();
+            notPricedOutputData.CurrentMount.Name = mountIm.Name;
             notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
 
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
+                if (detailIm == null)
+                {
+                    continue;
+                }
                 currentExtraDetail.Price = Math.Round(currentExtraDetail.Count * detailIm.PricePerCount, 2);
             }
            

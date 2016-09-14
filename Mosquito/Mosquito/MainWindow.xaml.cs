@@ -136,7 +136,7 @@ namespace Mosquito
 
         private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -147,7 +147,7 @@ namespace Mosquito
 
         private void CrossProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -158,7 +158,7 @@ namespace Mosquito
 
         private void NetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -169,7 +169,7 @@ namespace Mosquito
 
         private void CordComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -224,7 +224,7 @@ namespace Mosquito
 
         private void ExtraDetailName_ValueChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -256,7 +256,7 @@ namespace Mosquito
 
         private void AngleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -278,7 +278,7 @@ namespace Mosquito
 
         private void MountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
@@ -289,13 +289,13 @@ namespace Mosquito
 
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (data == null)
+            if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
             var newValue = e.AddedItems[0] as string;
-            //data = calculatorService.ChangeSystem(newValue, data);
-            //RefreshFormValues();
+            data = calculatorService.ChangeSystem(newValue, data);
+            RefreshFormValues();
         }
     }
 }
