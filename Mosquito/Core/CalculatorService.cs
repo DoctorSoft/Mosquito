@@ -23,6 +23,11 @@ namespace Core
 
             var defaultData = new OutputWpfData
             {
+                Systems = inputData.Systems,
+                CurrentSystem = new CurrentSystem
+                {
+                    Name = inputData.Systems.FirstOrDefault().Name
+                },
                 Profiles = inputData.Profiles,
                 CurrentProfile = new CurrentProfile
                 {
@@ -77,6 +82,11 @@ namespace Core
         {
             oldData.Height = heigth;
             return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData)
+        {
+            throw new NotImplementedException();
         }
 
         public OutputWpfData ChangeProfile(string profileName, OutputWpfData oldData)
