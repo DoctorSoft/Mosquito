@@ -39,12 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OutputWPFModels\CurrentAngle.cs" />
     <Compile Include="OutputWPFModels\CurrentCord.cs" />
     <Compile Include="OutputWPFModels\CurrentCrossProfile.cs" />
     <Compile Include="OutputWPFModels\CurrentExtraDetail.cs" />
+    <Compile Include="OutputWPFModels\CurrentMount.cs" />
     <Compile Include="OutputWPFModels\CurrentNet.cs" />
     <Compile Include="OutputWPFModels\CurrentProduct.cs" />
     <Compile Include="OutputWPFModels\CurrentProfile.cs" />
+    <Compile Include="OutputWPFModels\CurrentSystem.cs" />
     <Compile Include="OutputWPFModels\OutputWPFData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

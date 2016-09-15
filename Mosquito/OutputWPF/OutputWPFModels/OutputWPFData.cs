@@ -8,6 +8,9 @@ namespace OutputWPF.OutputWPFModels
         public decimal Width { get; set; }
 
         public decimal Height { get; set; }
+        public List<SystemIm> Systems { get; set; }
+
+        public CurrentSystem CurrentSystem { get; set; }
 
         public List<ProfileIm> Profiles { get; set; }
 
@@ -24,6 +27,14 @@ namespace OutputWPF.OutputWPFModels
         public List<CordIm> Cords { get; set; }
 
         public CurrentCord CurrentCord { get; set; }
+
+        public List<AngleIm> Angles { get; set; }
+
+        public CurrentAngle CurrentAngle { get; set; }
+
+        public List<MountIm> Mounts { get; set; }
+
+        public CurrentMount CurrentMount { get; set; }
 
         public List<ExtraDetailIm> ExtraDetails { get; set; }
 

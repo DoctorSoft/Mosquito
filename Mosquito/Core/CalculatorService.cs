@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Input.InputModels;
 using Input.Interfaces;
 using OutputWPF.OutputWPFModels;
@@ -10,19 +9,22 @@ namespace Core
 {
     public class CalculatorService : ICalculatorService
     {
-        private readonly IInputDataProvider inputDataProvider;
+        private readonly InputData inputData;
 
         public CalculatorService(IInputDataProvider inputDataProvider)
         {
-            this.inputDataProvider = inputDataProvider;
+            this.inputData = inputDataProvider.GetInputData(); 
         }
 
         public OutputWpfData GetDefault()
-        {
-            var inputData = inputDataProvider.GetInputData();
-
+        { 
             var defaultData = new OutputWpfData
             {
+                Systems = inputData.Systems,
+                CurrentSystem = new CurrentSystem
+                {
+                    Name = inputData.Systems.FirstOrDefault().Name
+                },
                 Profiles = inputData.Profiles,
                 CurrentProfile = new CurrentProfile
                 {
@@ -42,6 +44,16 @@ namespace Core
                 CurrentCord = new CurrentCord
                 {
                     Name = inputData.Cords.FirstOrDefault().Name
+                },
+                Angles = inputData.Angles,
+                CurrentAngle = new CurrentAngle
+                {
+                    Name = inputData.Angles.FirstOrDefault().Name
+                },
+                Mounts = inputData.Mounts,
+                CurrentMount = new CurrentMount
+                {
+                    Name = inputData.Mounts.FirstOrDefault().Name
                 },
                 ExtraDetails = inputData.ExtraDetails,
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
@@ -66,6 +78,15 @@ namespace Core
         public OutputWpfData ChangeHeight(decimal heigth, OutputWpfData oldData)
         {
             oldData.Height = heigth;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData)
+        {
+            oldData.CurrentSystem = new CurrentSystem
+            {
+                Name = systemName
+            };
             return Calculate(oldData);
         }
 
@@ -102,6 +123,30 @@ namespace Core
             {
                 Name = cordName
             };
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeAngle(string angleName, OutputWpfData oldData)
+        {
+            oldData.CurrentAngle.Name = angleName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeAngleCount(decimal angleCount, OutputWpfData oldData)
+        {
+            oldData.CurrentAngle.Count = angleCount;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeMount(string mountName, OutputWpfData oldData)
+        {
+            oldData.CurrentMount.Name = mountName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData)
+        {
+            oldData.CurrentMount.Count = mountCount;
             return Calculate(oldData);
         }
 
@@ -146,28 +191,66 @@ namespace Core
             return Calculate(oldData);
         }
 
+        private OutputWpfData SetAllowedImProductsBySystem(OutputWpfData notPricedOutputData)
+        {
+            var systemIm = inputData.Systems.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentSystem.Name);
+
+            notPricedOutputData.Angles = inputData.Angles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Cords = inputData.Cords.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.CrossProfiles = inputData.CrossProfiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.ExtraDetails = inputData.ExtraDetails.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Mounts = inputData.Mounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
+            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
+
             var profileIm = notPricedOutputData.Profiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentProfile.Name);
+            profileIm = profileIm ?? notPricedOutputData.Profiles.FirstOrDefault();
+            notPricedOutputData.CurrentProfile.Name = profileIm.Name;
             notPricedOutputData.CurrentProfile.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentProfile.Price = Math.Round(notPricedOutputData.CurrentProfile.Count * profileIm.PricePerCount, 2);
-
-
+            
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
+            crossProfileIm = crossProfileIm ?? notPricedOutputData.CrossProfiles.FirstOrDefault();
+            notPricedOutputData.CurrentCrossProfile.Name = crossProfileIm.Name;
             notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
             var netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentNet.Name);
+            netIm = netIm ?? notPricedOutputData.Nets.FirstOrDefault();
+            notPricedOutputData.CurrentNet.Name = netIm.Name;
             notPricedOutputData.CurrentNet.Count = Math.Round(((notPricedOutputData.Width * notPricedOutputData.Height) / 1000000), 2);
             notPricedOutputData.CurrentNet.Price = Math.Round(notPricedOutputData.CurrentNet.Count * netIm.PricePerCount, 2);
 
             var cordIm = notPricedOutputData.Cords.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCord.Name);
+            cordIm = cordIm ?? notPricedOutputData.Cords.FirstOrDefault();
+            notPricedOutputData.CurrentCord.Name = cordIm.Name;
             notPricedOutputData.CurrentCord.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
+
+            var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
+            angleIm = angleIm ?? notPricedOutputData.Angles.FirstOrDefault();
+            notPricedOutputData.CurrentAngle.Name = angleIm.Name;
+            notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
+
+            var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
+            mountIm = mountIm ?? notPricedOutputData.Mounts.FirstOrDefault();
+            notPricedOutputData.CurrentMount.Name = mountIm.Name;
+            notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
 
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
+                if (detailIm == null)
+                {
+                    continue;
+                }
                 currentExtraDetail.Price = Math.Round(currentExtraDetail.Count * detailIm.PricePerCount, 2);
             }
            
@@ -177,6 +260,8 @@ namespace Core
                                              notPricedOutputData.CurrentCrossProfile.Price + 
                                              notPricedOutputData.CurrentNet.Price +
                                              notPricedOutputData.CurrentCord.Price +
+                                             notPricedOutputData.CurrentAngle.Price +
+                                             notPricedOutputData.CurrentMount.Price +
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 

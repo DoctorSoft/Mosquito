@@ -12,6 +12,8 @@ namespace Core
 
         OutputWpfData ChangeHeight(decimal height, OutputWpfData oldData);
 
+        OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData);
+
         OutputWpfData ChangeProfile(string profileName, OutputWpfData oldData);
 
         OutputWpfData ChangeCrossProfile(string crossProfileName, OutputWpfData oldData);
@@ -19,6 +21,14 @@ namespace Core
         OutputWpfData ChangeNet(string netName, OutputWpfData oldData);
 
         OutputWpfData ChangeCord(string cordName, OutputWpfData oldData);
+
+        OutputWpfData ChangeAngle(string angleName, OutputWpfData oldData);
+
+        OutputWpfData ChangeAngleCount(decimal angleCount, OutputWpfData oldData);
+
+        OutputWpfData ChangeMount(string mountName, OutputWpfData oldData);
+
+        OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData);
 
         OutputWpfData AddExtraDetail(OutputWpfData oldData);
 
