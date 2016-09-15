@@ -44,23 +44,25 @@ namespace Input.Implementation
                 var cords = ParseWorkSheet<CordIm>(cordsSheet);
 
                 var netsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Nets];
-                var nets = ParseWorkSheet<NetIm>(netsSheet);
+                var nets = ParseNets(netsSheet);
 
                 var angelsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Angels];
-                var angels = ParseWorkSheet<AngleIm>(angelsSheet);
+                var angels = ParseAngles(angelsSheet);
                 
                 var mountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Mounts];
                 var mounts = ParseWorkSheet<MountIm>(mountsSheet);
 
                 var crossMountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.CrossMounts];
                 var crossMounts = ParseWorkSheet<CrossMountIm>(crossMountsSheet);
-
-
+                
                 var knobsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Knobs];
                 var knobs = ParseWorkSheet<KnobIm>(knobsSheet);
 
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
+
+                var packageDetailsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.PackageDetails];
+                var packageDetails = ParsePackageDetails(packageDetailsSheet);
 
                 var settingsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Settings];
                 var settings = ParseSettings(settingsSheet);
@@ -77,6 +79,7 @@ namespace Input.Implementation
                     CrossMounts = crossMounts,
                     Knobs = knobs,
                     ExtraDetails = extraDetails,
+                    PackageDetails = packageDetails,
                     Settings = settings
                 };
             }
@@ -126,6 +129,133 @@ namespace Input.Implementation
             }
 
             return products;
+        }
+
+        public List<PackageDetailIm> ParsePackageDetails(Excel.Worksheet worksheet)
+        {
+            var packageDetails = new List<PackageDetailIm>();
+            if (worksheet == null)
+            {
+                return packageDetails;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return packageDetails;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                packageDetails.Add(new PackageDetailIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString())
+                });
+            }
+
+            return packageDetails;
+        }
+
+        public List<NetIm> ParseNets(Excel.Worksheet worksheet)
+        {
+            var nets = new List<NetIm>();
+            if (worksheet == null)
+            {
+                return nets;
+            }
+
+            var range = worksheet.UsedRange;
+            
+            if (range == null)
+            {
+                return nets;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var size = (worksheet.Cells[rowIndex, (int)ColumnName.Size] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                nets.Add(new NetIm
+                {
+                    Name = name.ToString(), 
+                    PricePerCount = decimal.Parse(price.ToString()), 
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Size = int.Parse(size.ToString()),
+                });
+            }
+
+            return nets;
+        }
+
+        public List<AngleIm> ParseAngles(Excel.Worksheet worksheet)
+        {
+            var nets = new List<AngleIm>();
+            if (worksheet == null)
+            {
+                return nets;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return nets;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
+                var clincherCount = (worksheet.Cells[rowIndex, (int)ColumnName.ClincherCount] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                nets.Add(new AngleIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Count = int.Parse(count.ToString()),
+                    ClincherCount = int.Parse(clincherCount.ToString()),
+                });
+            }
+
+            return nets;
         }
 
         public SettingsIm ParseSettings(Excel.Worksheet worksheet)

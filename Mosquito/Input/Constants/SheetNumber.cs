@@ -12,6 +12,7 @@
         CrossMounts = 8,
         Knobs = 9,
         ExtraDetails = 10,
-        Settings = 11
+        PackageDetails = 11,
+        Settings = 12
     }
 }

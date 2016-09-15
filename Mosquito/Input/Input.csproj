@@ -50,6 +50,7 @@
     <Compile Include="Implementation\InputDataProvider.cs" />
     <Compile Include="Implementation\InputDataProviderStub.cs" />
     <Compile Include="InputModels\AngleIm.cs" />
+    <Compile Include="InputModels\PackageDetailIm.cs" />
     <Compile Include="InputModels\CordIm.cs" />
     <Compile Include="InputModels\CrossMountIm.cs" />
     <Compile Include="InputModels\CrossProfileIm.cs" />
