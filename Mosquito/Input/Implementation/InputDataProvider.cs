@@ -142,6 +142,8 @@ namespace Input.Implementation
             settings.ProfileTolerance = decimal.Parse((worksheet.Cells[(int)RowName.ProfileTolerance, (int)ColumnName.Value] as Excel.Range).Value.ToString());
             settings.TrashPercent = decimal.Parse((worksheet.Cells[(int)RowName.TrashPercent, (int)ColumnName.Value] as Excel.Range).Value.ToString());
             settings.WorkPrice = decimal.Parse((worksheet.Cells[(int)RowName.WorkPrice, (int)ColumnName.Value] as Excel.Range).Value.ToString());
+            settings.GluePrice = decimal.Parse((worksheet.Cells[(int)RowName.GluePrice, (int)ColumnName.Value] as Excel.Range).Value.ToString());
+            settings.AmountNetsOnTheOneGlue = decimal.Parse((worksheet.Cells[(int)RowName.AmountNetsOnTheOneGlue, (int)ColumnName.Value] as Excel.Range).Value.ToString());
 
             return settings;
         }

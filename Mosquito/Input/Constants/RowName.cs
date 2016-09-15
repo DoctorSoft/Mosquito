@@ -8,6 +8,8 @@
         TrashPercent = 3,
         OtherSpending = 4,
         ProfileTolerance = 5,
-        CrossProfileTolerance = 6
+        CrossProfileTolerance = 6,
+        GluePrice = 7,
+        AmountNetsOnTheOneGlue = 8
     }
 }

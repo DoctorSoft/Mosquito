@@ -11,5 +11,9 @@
         public decimal ProfileTolerance { get; set; }
 
         public decimal CrossProfileTolerance { get; set; }
+
+        public decimal GluePrice { get; set; }
+
+        public decimal AmountNetsOnTheOneGlue { get; set; }
     }
 }

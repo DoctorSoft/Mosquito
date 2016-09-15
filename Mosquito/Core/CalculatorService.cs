@@ -20,6 +20,8 @@ namespace Core
         { 
             var defaultData = new OutputWpfData
             {
+                Height = 600,
+                Width = 1700,
                 Systems = inputData.Systems,
                 CurrentSystem = new CurrentSystem
                 {
@@ -69,11 +71,11 @@ namespace Core
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
                 OtherSpendingPrice = inputData.Settings.OtherSpendingPrice,
-                Height = 600,
-                Width = 1700,
                 CrossProfileTolerance = inputData.Settings.CrossProfileTolerance,
                 ProfileTolerance = inputData.Settings.ProfileTolerance,
-                TrashPercent = inputData.Settings.TrashPercent
+                TrashPercent = inputData.Settings.TrashPercent,
+                GluePrice = inputData.Settings.GluePrice,
+                AmountNetsOnTheOneGlue = inputData.Settings.AmountNetsOnTheOneGlue
             };
 
             return Calculate(defaultData);
@@ -299,7 +301,9 @@ namespace Core
                 }
                 currentExtraDetail.Price = Math.Round(currentExtraDetail.Count * detailIm.PricePerCount, 2);
             }
-           
+
+            var gLuePrice = Math.Round(notPricedOutputData.GluePrice/notPricedOutputData.AmountNetsOnTheOneGlue, 2);
+
             notPricedOutputData.TrashPrice = Math.Round(((notPricedOutputData.CurrentProfile.Price + notPricedOutputData.CurrentCrossProfile.Price + notPricedOutputData.CurrentNet.Price + notPricedOutputData.CurrentCord.Price) * notPricedOutputData.TrashPercent / 100), 2);
 
             var currentsSum = notPricedOutputData.CurrentProfile.Price +
@@ -313,7 +317,8 @@ namespace Core
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 
-                                             notPricedOutputData.OtherSpendingPrice;
+                                             notPricedOutputData.OtherSpendingPrice +
+                                             gLuePrice;
 
             notPricedOutputData.TotalPrice = currentsSum;
 
