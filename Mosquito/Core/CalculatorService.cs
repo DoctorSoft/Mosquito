@@ -217,6 +217,7 @@ namespace Core
             notPricedOutputData.CrossProfiles = inputData.CrossProfiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.ExtraDetails = inputData.ExtraDetails.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Mounts = inputData.Mounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.CrossMounts = inputData.CrossMounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
 
