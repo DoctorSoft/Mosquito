@@ -55,6 +55,11 @@ namespace Core
                 {
                     Name = inputData.Mounts.FirstOrDefault().Name
                 },
+                CrossMounts = inputData.CrossMounts,
+                CurrentCrossMount = new CurrentCrossMount()
+                {
+                    Name = inputData.CrossMounts.FirstOrDefault().Name
+                },
                 ExtraDetails = inputData.ExtraDetails,
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
@@ -147,6 +152,18 @@ namespace Core
         public OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData)
         {
             oldData.CurrentMount.Count = mountCount;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeCrossMount(string crossMountName, OutputWpfData oldData)
+        {
+            oldData.CurrentCrossMount.Name = crossMountName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeCrossMountCount(decimal crossMountCount, OutputWpfData oldData)
+        {
+            oldData.CurrentCrossMount.Count = crossMountCount;
             return Calculate(oldData);
         }
 
@@ -244,6 +261,11 @@ namespace Core
             notPricedOutputData.CurrentMount.Name = mountIm.Name;
             notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
 
+            var crossMountIm = notPricedOutputData.CrossMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossMount.Name);
+            crossMountIm = crossMountIm ?? notPricedOutputData.CrossMounts.FirstOrDefault();
+            notPricedOutputData.CurrentCrossMount.Name = crossMountIm.Name;
+            notPricedOutputData.CurrentCrossMount.Price = Math.Round(notPricedOutputData.CurrentCrossMount.Count * crossMountIm.PricePerCount, 2);
+
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
@@ -262,6 +284,7 @@ namespace Core
                                              notPricedOutputData.CurrentCord.Price +
                                              notPricedOutputData.CurrentAngle.Price +
                                              notPricedOutputData.CurrentMount.Price +
+                                             notPricedOutputData.CurrentCrossMount.Price +
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 

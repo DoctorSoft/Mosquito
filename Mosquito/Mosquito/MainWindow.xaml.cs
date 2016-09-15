@@ -106,6 +106,7 @@ namespace Mosquito
             SetProductData(CordComboBox, null, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
             SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
             SetProductData(MountComboBox, MountCountSingleUpDown, null, MountPriceLabel, data.Mounts, data.CurrentMount);
+            SetProductData(CrossMountComboBox, CrossMountCountSingleUpDown, null, CrossMountPriceLabel, data.CrossMounts, data.CurrentCrossMount);
 
             InitExtraDetailsGridBinding();
         }
@@ -276,6 +277,29 @@ namespace Mosquito
             RefreshFormValues();
         }
 
+        private void CrossMountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeCrossMountCount(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+
+        private void CrossMountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeCrossMount(newValue, data);
+            RefreshFormValues();
+        }
+
         private void MountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (data == null || e.AddedItems.Count == 0)
@@ -297,5 +321,6 @@ namespace Mosquito
             data = calculatorService.ChangeSystem(newValue, data);
             RefreshFormValues();
         }
+
     }
 }

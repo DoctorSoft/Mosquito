@@ -30,6 +30,10 @@ namespace Core
 
         OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData);
 
+        OutputWpfData ChangeCrossMount(string crossMountName, OutputWpfData oldData);
+
+        OutputWpfData ChangeCrossMountCount(decimal crossMountCount, OutputWpfData oldData);
+
         OutputWpfData AddExtraDetail(OutputWpfData oldData);
 
         OutputWpfData RemoveExtraDetail(Guid id, OutputWpfData oldData);

@@ -52,6 +52,9 @@ namespace Input.Implementation
                 var mountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Mounts];
                 var mounts = ParseWorkSheet<MountIm>(mountsSheet);
 
+                var crossMountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.CrossMounts];
+                var crossMounts = ParseWorkSheet<CrossMountIm>(crossMountsSheet);
+
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
 
@@ -61,14 +64,15 @@ namespace Input.Implementation
                 return new InputData
                 {
                     Systems = systems,
-                    ExtraDetails = extraDetails,
-                    CrossProfiles = crossProfiles,
-                    Cords = cords,
-                    Nets = nets,
                     Profiles = profiles,
-                    Settings = settings,
+                    CrossProfiles = crossProfiles,
+                    Nets = nets,
+                    Cords = cords,
                     Angles = angels,
-                    Mounts = mounts
+                    Mounts = mounts,
+                    CrossMounts = crossMounts,
+                    ExtraDetails = extraDetails,
+                    Settings = settings
                 };
             }
             finally

@@ -8,6 +8,7 @@ namespace OutputWPF.OutputWPFModels
         public decimal Width { get; set; }
 
         public decimal Height { get; set; }
+
         public List<SystemIm> Systems { get; set; }
 
         public CurrentSystem CurrentSystem { get; set; }
@@ -35,6 +36,10 @@ namespace OutputWPF.OutputWPFModels
         public List<MountIm> Mounts { get; set; }
 
         public CurrentMount CurrentMount { get; set; }
+
+        public List<CrossMountIm> CrossMounts { get; set; }
+
+        public CurrentCrossMount CurrentCrossMount { get; set; }
 
         public List<ExtraDetailIm> ExtraDetails { get; set; }
 

@@ -7,7 +7,7 @@
     xmlns:components="clr-namespace:Mosquito.Components"
     x:Class="Mosquito.MainWindow"
         mc:Ignorable="d"
-        Title="Колькулятор Стоимости москитных сеток " Height="736" Width="729" ResizeMode="NoResize">
+        Title="Колькулятор Стоимости москитных сеток " Height="786" Width="729" ResizeMode="NoResize">
     <Grid x:Name="MailGrid" HorizontalAlignment="Left" Width="720" Margin="0,10,0,4" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
@@ -18,21 +18,21 @@
             </TransformGroup>
         </Grid.RenderTransform>
         <!-- system elements -->
-        <Label Content="Выберите систему:" HorizontalAlignment="Left" Margin="14,20,0,0" VerticalAlignment="Top"/>
+        <Label Content="Выберите систему:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
         <ComboBox Name="SystemComboBox" HorizontalAlignment="Left" Margin="154,24,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="SystemComboBox_SelectionChanged" />
-        
+
         <!-- height elements -->
-        <Label x:Name="HeighLabel" Content="Ширина:" HorizontalAlignment="Left" Margin="14,53,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label x:Name="HeighLabel" Content="Ширина:" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="70"/>
         <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="50" Height="23" Margin="154,53,0,0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="HeightSingleUpDown" ValueChanged="HeightSingleUpDown_ValueChanged"/>
         <Label x:Name="AdditionalHeighLabel" Content="мм." HorizontalAlignment="Left" Margin="274,54,0,0" VerticalAlignment="Top"/>
 
         <!-- width elements -->
-        <Label Content="Высота:" HorizontalAlignment="Left" Margin="14,83,0,0" VerticalAlignment="Top"/>
+        <Label Content="Высота:" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top"/>
         <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="50" Height="23" Margin="154,83,0,0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="WeigthSingleUpDown" ValueChanged="WeigthSingleUpDown_ValueChanged" />
         <Label Content="мм." HorizontalAlignment="Left" Margin="274,83,0,0" VerticalAlignment="Top"/>
 
         <!-- profile elements -->
-        <Label Content="Профиль:" HorizontalAlignment="Left" Margin="14,123,0,0" VerticalAlignment="Top"/>
+        <Label Content="Профиль:" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="ProfileComboBox" HorizontalAlignment="Left" Margin="154,123,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="ProfileComboBox_SelectionChanged" />
         <Label Name="ProfileCountLabel"  HorizontalAlignment="Left" Margin="434,123,0,0" VerticalAlignment="Top"/>
         <Label Name="ProfileMeasureLabel" Content="м." HorizontalAlignment="Left" Margin="464,123,0,0" VerticalAlignment="Top"/>
@@ -41,7 +41,7 @@
 
 
         <!-- crossprofile elements -->
-        <Label Content="Профиль поперечины:" HorizontalAlignment="Left" Margin="14,153,0,0" VerticalAlignment="Top"/>
+        <Label Content="Профиль поперечины:" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="CrossProfileComboBox" HorizontalAlignment="Left" Margin="154,153,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="CrossProfileComboBox_SelectionChanged"/>
         <Label Name="CrossProfileCountLabel"  HorizontalAlignment="Left" Margin="434,153,0,0" VerticalAlignment="Top"/>
         <Label Name="CrossProfileMeasureLabel" Content="м." HorizontalAlignment="Left" Margin="464,153,0,0" VerticalAlignment="Top"/>
@@ -49,7 +49,7 @@
         <Label Name="CrossProfilePriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,153,0,0" VerticalAlignment="Top"/>
 
         <!-- net elements -->
-        <Label Content="Сетка:" HorizontalAlignment="Left" Margin="14,183,0,0" VerticalAlignment="Top"/>
+        <Label Content="Сетка:" HorizontalAlignment="Left" Margin="10,183,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="NetComboBox" HorizontalAlignment="Left" Margin="154,183,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="NetComboBox_SelectionChanged"/>
         <Label Name="NetCountLabel"  HorizontalAlignment="Left" Margin="434,183,0,0" VerticalAlignment="Top"/>
         <Label Name="NetMeasureLabel" Content="м." HorizontalAlignment="Left" Margin="464,183,0,0" VerticalAlignment="Top"/>
@@ -57,7 +57,7 @@
         <Label Name="NetPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,183,0,0" VerticalAlignment="Top"/>
 
         <!-- cord elements -->
-        <Label Content="Шнур:" HorizontalAlignment="Left" Margin="14,213,0,0" VerticalAlignment="Top"/>
+        <Label Content="Шнур:" HorizontalAlignment="Left" Margin="10,213,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="CordComboBox" HorizontalAlignment="Left" Margin="154,213,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="CordComboBox_SelectionChanged"/>
         <Label Name="CordCountLabel"  HorizontalAlignment="Left" Margin="434,213,0,0" VerticalAlignment="Top"/>
         <Label Name="CordMeasureLabel" Content="м." HorizontalAlignment="Left" Margin="464,213,0,0" VerticalAlignment="Top"/>
@@ -65,7 +65,7 @@
         <Label Name="CordPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,213,0,0" VerticalAlignment="Top"/>
 
         <!-- angle price-->
-        <Label Content="Уголок:" HorizontalAlignment="Left" Margin="14,243,0,0" VerticalAlignment="Top"/>
+        <Label Content="Уголок:" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="AngleComboBox" HorizontalAlignment="Left" Margin="154,243,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="AngleComboBox_SelectionChanged"/>
         <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="414,243,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="AngleCountSingleUpDown" ValueChanged="AngleCountSingleUpDown_ValueChanged"/>
         <Label Name="AngleMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="464,243,0,0" VerticalAlignment="Top"/>
@@ -73,18 +73,26 @@
         <Label Name="AnglePriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,243,0,0" VerticalAlignment="Top"/>
 
         <!-- mount price-->
-        <Label Content="Крепление:" HorizontalAlignment="Left" Margin="14,273,0,0" VerticalAlignment="Top"/>
+        <Label Content="Крепление:" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="MountComboBox" HorizontalAlignment="Left" Margin="154,273,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="MountComboBox_SelectionChanged"/>
         <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="414,273,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="MountCountSingleUpDown" ValueChanged="MountCountSingleUpDown_ValueChanged"/>
         <Label Name="MountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="464,273,0,0" VerticalAlignment="Top"/>
         <Label Name="MountPriceLabel" HorizontalAlignment="Left" Margin="534,273,0,0" VerticalAlignment="Top"/>
         <Label Name="MountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,273,0,0" VerticalAlignment="Top"/>
 
-        <!-- extra detail elements -->
-        <StackPanel x:Name="ExtraDetailPanel" HorizontalAlignment="Left" Height="94" Margin="8,387,0,0" VerticalAlignment="Top" Width="517"/>
-        <Grid HorizontalAlignment="Left" Height="51" Margin="467,620,0,0" VerticalAlignment="Top" Width="251" Background="Lavender" Panel.ZIndex="-1"/>
+        <!-- cross mount price-->
+        <Label Content="Крепление поперечины:" HorizontalAlignment="Left" Margin="10,303,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="CrossMountComboBox" HorizontalAlignment="Left" Margin="154,303,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="CrossMountComboBox_SelectionChanged"/>
+        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="414,303,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CrossMountCountSingleUpDown" ValueChanged="CrossMountCountSingleUpDown_ValueChanged"/>
+        <Label Name="CrossMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="464,303,0,0" VerticalAlignment="Top"/>
+        <Label Name="CrossMountPriceLabel" HorizontalAlignment="Left" Margin="534,303,0,0" VerticalAlignment="Top"/>
+        <Label Name="CrossMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,303,0,0" VerticalAlignment="Top"/>
 
-        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="31,342,0,0" VerticalAlignment="Top" Height="139" Width="677">
+        <!-- extra detail elements -->
+        <StackPanel x:Name="ExtraDetailPanel" HorizontalAlignment="Left" Height="94" Margin="6,458,0,0" VerticalAlignment="Top" Width="517"/>
+        <Grid HorizontalAlignment="Left" Height="51" Margin="465,691,0,0" VerticalAlignment="Top" Width="251" Background="Lavender" Panel.ZIndex="-1"/>
+
+        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="29,413,0,0" VerticalAlignment="Top" Height="139" Width="677">
             <DataGrid.BindingGroup>
                 <BindingGroup/>
             </DataGrid.BindingGroup>
@@ -113,28 +121,28 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="31,315,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
+        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="29,386,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
 
         <!-- work price -->
-        <Label Content="Работа:" HorizontalAlignment="Left" Margin="18,497,0,0" VerticalAlignment="Top"/>
-        <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="158,497,0,0" VerticalAlignment="Top"/>
-        <Label Content="р." HorizontalAlignment="Left" Margin="178,497,0,0" VerticalAlignment="Top"/>
+        <Label Content="Работа:" HorizontalAlignment="Left" Margin="16,568,0,0" VerticalAlignment="Top"/>
+        <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="156,568,0,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="176,568,0,0" VerticalAlignment="Top"/>
 
         <!-- trash price -->
-        <Label Content="Отходы:" HorizontalAlignment="Left" Margin="18,527,0,0" VerticalAlignment="Top"/>
-        <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="158,527,0,0" VerticalAlignment="Top"/>
-        <Label Content="(" HorizontalAlignment="Left" Margin="189,527,0,0" VerticalAlignment="Top"/>
-        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="194,527,0,0" VerticalAlignment="Top"/>
-        <Label Content="%)" HorizontalAlignment="Left" Margin="214,527,0,0" VerticalAlignment="Top"/>
+        <Label Content="Отходы:" HorizontalAlignment="Left" Margin="16,598,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="156,598,0,0" VerticalAlignment="Top"/>
+        <Label Content="(" HorizontalAlignment="Left" Margin="187,598,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="192,598,0,0" VerticalAlignment="Top"/>
+        <Label Content="%)" HorizontalAlignment="Left" Margin="212,598,0,0" VerticalAlignment="Top"/>
 
         <!-- other price -->
-        <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="18,557,0,0" VerticalAlignment="Top"/>
-        <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="158,557,0,0" VerticalAlignment="Top"/>
-        <Label Content="р." HorizontalAlignment="Left" Margin="178,557,0,0" VerticalAlignment="Top"/>
+        <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="16,628,0,0" VerticalAlignment="Top"/>
+        <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="156,628,0,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="176,628,0,0" VerticalAlignment="Top"/>
 
         <!--total price-->
-        <Label Content="Итого:" HorizontalAlignment="Left" Margin="478,637,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="555,637,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="р." HorizontalAlignment="Left" Margin="609,637,0,0" VerticalAlignment="Top"/>
+        <Label Content="Итого:" HorizontalAlignment="Left" Margin="476,708,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="553,708,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="р." HorizontalAlignment="Left" Margin="607,708,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
