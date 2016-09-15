@@ -94,7 +94,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="23,218,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
-        
+
         <!-- work price -->
         <Label Content="Работа:" HorizontalAlignment="Left" Margin="10,400,0,0" VerticalAlignment="Top"/>
         <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="150,400,0,0" VerticalAlignment="Top"/>
@@ -103,15 +103,15 @@
         <!-- trash price -->
         <Label Content="Отходы:" HorizontalAlignment="Left" Margin="10,430,0,0" VerticalAlignment="Top"/>
         <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="150,430,0,0" VerticalAlignment="Top"/>
-        <Label Content="(" HorizontalAlignment="Left" Margin="175,430,0,0" VerticalAlignment="Top"/>
-        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="180,430,0,0" VerticalAlignment="Top"/>
-        <Label Content="%)" HorizontalAlignment="Left" Margin="200,430,0,0" VerticalAlignment="Top"/>
+        <Label Content="(" HorizontalAlignment="Left" Margin="180,430,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="184,430,0,0" VerticalAlignment="Top"/>
+        <Label Content="%)" HorizontalAlignment="Left" Margin="205,430,0,0" VerticalAlignment="Top"/>
 
         <!-- other price -->
         <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="10,460,0,0" VerticalAlignment="Top"/>
         <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="150,460,0,0" VerticalAlignment="Top"/>
         <Label Content="р." HorizontalAlignment="Left" Margin="170,460,0,0" VerticalAlignment="Top"/>
-        
+
         <!--total price-->
         <Label Content="Итого:" HorizontalAlignment="Left" Margin="470,540,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="547,540,0,0" VerticalAlignment="Top" FontWeight="Bold" />
