@@ -60,6 +60,11 @@ namespace Core
                 {
                     Name = inputData.CrossMounts.FirstOrDefault().Name
                 },
+                Knobs = inputData.Knobs,
+                CurrentKnob = new CurrentKnob()
+                {
+                    Name = inputData.Knobs.FirstOrDefault().Name
+                },
                 ExtraDetails = inputData.ExtraDetails,
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
@@ -167,6 +172,18 @@ namespace Core
             return Calculate(oldData);
         }
 
+        public OutputWpfData ChangeKnob(string knobName, OutputWpfData oldData)
+        {
+            oldData.CurrentKnob.Name = knobName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeKnobCount(decimal knobCount, OutputWpfData oldData)
+        {
+            oldData.CurrentKnob.Count = knobCount;
+            return Calculate(oldData);
+        }
+
         public OutputWpfData AddExtraDetail(OutputWpfData oldData)
         {
             var newExtraDetail = new CurrentExtraDetail
@@ -218,6 +235,7 @@ namespace Core
             notPricedOutputData.ExtraDetails = inputData.ExtraDetails.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Mounts = inputData.Mounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.CrossMounts = inputData.CrossMounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.Knobs = inputData.Knobs.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
 
@@ -267,6 +285,11 @@ namespace Core
             notPricedOutputData.CurrentCrossMount.Name = crossMountIm.Name;
             notPricedOutputData.CurrentCrossMount.Price = Math.Round(notPricedOutputData.CurrentCrossMount.Count * crossMountIm.PricePerCount, 2);
 
+            var knobIm = notPricedOutputData.Knobs.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentKnob.Name);
+            knobIm = knobIm ?? notPricedOutputData.Knobs.FirstOrDefault();
+            notPricedOutputData.CurrentKnob.Name = knobIm.Name;
+            notPricedOutputData.CurrentKnob.Price = Math.Round(notPricedOutputData.CurrentKnob.Count * knobIm.PricePerCount, 2);
+
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
                 var detailIm = notPricedOutputData.ExtraDetails.FirstOrDefault(im => im.Name == currentExtraDetail.Name);
@@ -286,6 +309,7 @@ namespace Core
                                              notPricedOutputData.CurrentAngle.Price +
                                              notPricedOutputData.CurrentMount.Price +
                                              notPricedOutputData.CurrentCrossMount.Price +
+                                             notPricedOutputData.CurrentKnob.Price +
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 

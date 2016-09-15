@@ -34,6 +34,10 @@ namespace Core
 
         OutputWpfData ChangeCrossMountCount(decimal crossMountCount, OutputWpfData oldData);
 
+        OutputWpfData ChangeKnob(string knobName, OutputWpfData oldData);
+
+        OutputWpfData ChangeKnobCount(decimal knobCount, OutputWpfData oldData);
+
         OutputWpfData AddExtraDetail(OutputWpfData oldData);
 
         OutputWpfData RemoveExtraDetail(Guid id, OutputWpfData oldData);

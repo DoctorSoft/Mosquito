@@ -10,7 +10,8 @@
         Angels = 6,
         Mounts = 7,
         CrossMounts = 8,
-        ExtraDetails = 9,
-        Settings = 10
+        Knobs = 9,
+        ExtraDetails = 10,
+        Settings = 11
     }
 }

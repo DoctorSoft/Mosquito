@@ -12,6 +12,7 @@ namespace Input.InputModels
         public List<AngleIm> Angles { get; set; }
         public List<MountIm> Mounts { get; set; }
         public List<CrossMountIm> CrossMounts { get; set; }
+        public List<KnobIm> Knobs { get; set; }
         public List<ExtraDetailIm> ExtraDetails { get; set; }
         public SettingsIm Settings { get; set; } 
     }

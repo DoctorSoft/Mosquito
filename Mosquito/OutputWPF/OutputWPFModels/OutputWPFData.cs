@@ -41,6 +41,10 @@ namespace OutputWPF.OutputWPFModels
 
         public CurrentCrossMount CurrentCrossMount { get; set; }
 
+        public List<KnobIm> Knobs { get; set; }
+
+        public CurrentKnob CurrentKnob { get; set; }
+
         public List<ExtraDetailIm> ExtraDetails { get; set; }
 
         public List<CurrentExtraDetail> CurrentExtraDetails { get; set; }

@@ -55,6 +55,10 @@ namespace Input.Implementation
                 var crossMountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.CrossMounts];
                 var crossMounts = ParseWorkSheet<CrossMountIm>(crossMountsSheet);
 
+
+                var knobsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Knobs];
+                var knobs = ParseWorkSheet<KnobIm>(knobsSheet);
+
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
 
@@ -71,6 +75,7 @@ namespace Input.Implementation
                     Angles = angels,
                     Mounts = mounts,
                     CrossMounts = crossMounts,
+                    Knobs = knobs,
                     ExtraDetails = extraDetails,
                     Settings = settings
                 };

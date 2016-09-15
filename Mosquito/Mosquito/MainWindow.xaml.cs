@@ -107,6 +107,7 @@ namespace Mosquito
             SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
             SetProductData(MountComboBox, MountCountSingleUpDown, null, MountPriceLabel, data.Mounts, data.CurrentMount);
             SetProductData(CrossMountComboBox, CrossMountCountSingleUpDown, null, CrossMountPriceLabel, data.CrossMounts, data.CurrentCrossMount);
+            SetProductData(KnobComboBox, KnobCountSingleUpDown, null, KnobPriceLabel, data.Knobs, data.CurrentKnob);
 
             InitExtraDetailsGridBinding();
         }
@@ -265,6 +266,18 @@ namespace Mosquito
             data = calculatorService.ChangeAngle(newValue, data);
             RefreshFormValues();
         }
+
+        private void MountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeMount(newValue, data);
+            RefreshFormValues();
+        }
+
         private void MountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (data == null)
@@ -274,18 +287,6 @@ namespace Mosquito
 
             var newValue = e.NewValue;
             data = calculatorService.ChangeMountCount(decimal.Parse(newValue.ToString()), data);
-            RefreshFormValues();
-        }
-
-        private void CrossMountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (data == null)
-            {
-                return;
-            }
-
-            var newValue = e.NewValue;
-            data = calculatorService.ChangeCrossMountCount(decimal.Parse(newValue.ToString()), data);
             RefreshFormValues();
         }
 
@@ -299,15 +300,39 @@ namespace Mosquito
             data = calculatorService.ChangeCrossMount(newValue, data);
             RefreshFormValues();
         }
+        
+        private void CrossMountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
 
-        private void MountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeCrossMountCount(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+
+        private void KnobComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (data == null || e.AddedItems.Count == 0)
             {
                 return;
             }
             var newValue = e.AddedItems[0] as string;
-            data = calculatorService.ChangeMount(newValue, data);
+            data = calculatorService.ChangeKnob(newValue, data);
+            RefreshFormValues();
+        }
+
+        private void KnobCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeKnobCount(decimal.Parse(newValue.ToString()), data);
             RefreshFormValues();
         }
 

@@ -88,6 +88,14 @@
         <Label Name="CrossMountPriceLabel" HorizontalAlignment="Left" Margin="534,303,0,0" VerticalAlignment="Top"/>
         <Label Name="CrossMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,303,0,0" VerticalAlignment="Top"/>
 
+        <!-- knobs price-->
+        <Label Content="Ручки:" HorizontalAlignment="Left" Margin="10,333,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="KnobComboBox" HorizontalAlignment="Left" Margin="154,333,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="KnobComboBox_SelectionChanged"/>
+        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="414,333,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="KnobCountSingleUpDown" ValueChanged="KnobCountSingleUpDown_ValueChanged"/>
+        <Label Name="KnobMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="464,333,0,0" VerticalAlignment="Top"/>
+        <Label Name="KnobPriceLabel" HorizontalAlignment="Left" Margin="534,333,0,0" VerticalAlignment="Top"/>
+        <Label Name="KnobPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="569,333,0,0" VerticalAlignment="Top"/>
+       
         <!-- extra detail elements -->
         <StackPanel x:Name="ExtraDetailPanel" HorizontalAlignment="Left" Height="94" Margin="6,458,0,0" VerticalAlignment="Top" Width="517"/>
         <Grid HorizontalAlignment="Left" Height="51" Margin="465,691,0,0" VerticalAlignment="Top" Width="251" Background="Lavender" Panel.ZIndex="-1"/>

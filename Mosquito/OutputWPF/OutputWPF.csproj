@@ -44,6 +44,7 @@
     <Compile Include="OutputWPFModels\CurrentCrossMount.cs" />
     <Compile Include="OutputWPFModels\CurrentCrossProfile.cs" />
     <Compile Include="OutputWPFModels\CurrentExtraDetail.cs" />
+    <Compile Include="OutputWPFModels\CurrentKnob.cs" />
     <Compile Include="OutputWPFModels\CurrentMount.cs" />
     <Compile Include="OutputWPFModels\CurrentNet.cs" />
     <Compile Include="OutputWPFModels\CurrentProduct.cs" />

@@ -55,6 +55,7 @@
     <Compile Include="InputModels\CrossProfileIm.cs" />
     <Compile Include="InputModels\ExtraDetailIm.cs" />
     <Compile Include="InputModels\InputData.cs" />
+    <Compile Include="InputModels\KnobIm.cs" />
     <Compile Include="InputModels\MountIm.cs" />
     <Compile Include="InputModels\NetIm.cs" />
     <Compile Include="InputModels\ProductIm.cs" />
