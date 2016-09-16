@@ -47,6 +47,7 @@
     <Compile Include="Constants\ColumnName.cs" />
     <Compile Include="Constants\RowName.cs" />
     <Compile Include="Constants\SheetNumber.cs" />
+    <Compile Include="Decorators\ExcelWorkbook.cs" />
     <Compile Include="Implementation\InputDataProvider.cs" />
     <Compile Include="Implementation\InputDataProviderStub.cs" />
     <Compile Include="InputModels\AngleIm.cs" />

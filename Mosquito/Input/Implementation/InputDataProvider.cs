@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Input.Constants;
+using Input.Decorators;
 using Input.InputModels;
 using Input.Interfaces;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -20,25 +21,19 @@ namespace Input.Implementation
 
         public InputData GetInputData()
         {
-            Excel.Application excel;
-            Excel.Workbook workBook;
-
             var currentDirectory = Directory.GetCurrentDirectory();
             var path = Path.Combine(currentDirectory, fileName);
 
-            excel = new Excel.Application();
-            workBook = excel.Workbooks.Open(path);
-
-            try
+            using (var workBook = new ExcelWorkbook(path))
             {
-                var systemsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Systems];
+                var systemsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Systems];
                 var systems = ParseSystems(systemsSheet);
 
                 var profilesSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Profiles];
                 var profiles = ParseWorkSheet<ProfileIm>(profilesSheet);
 
                 var crossProfilesSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.CrossProfiles];
-                var crossProfiles = ParseWorkSheet<CrossProfileIm>(crossProfilesSheet);
+                var crossProfiles = ParseCrossProfiles(crossProfilesSheet);
 
                 var cordsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Cords];
                 var cords = ParseWorkSheet<CordIm>(cordsSheet);
@@ -46,22 +41,23 @@ namespace Input.Implementation
                 var netsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Nets];
                 var nets = ParseNets(netsSheet);
 
-                var angelsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Angels];
+                var angelsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Angels];
                 var angels = ParseAngles(angelsSheet);
-                
-                var mountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Mounts];
+
+                var mountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Mounts];
                 var mounts = ParseWorkSheet<MountIm>(mountsSheet);
 
-                var crossMountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.CrossMounts];
-                var crossMounts = ParseWorkSheet<CrossMountIm>(crossMountsSheet);
-                
-                var knobsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.Knobs];
+                var crossMountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.CrossMounts];
+                var crossMounts = ParseCrossMounts(crossMountsSheet);
+
+                var knobsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Knobs];
                 var knobs = ParseWorkSheet<KnobIm>(knobsSheet);
 
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
 
-                var packageDetailsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.PackageDetails];
+                var packageDetailsSheet =
+                    (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.PackageDetails];
                 var packageDetails = ParsePackageDetails(packageDetailsSheet);
 
                 var settingsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Settings];
@@ -82,10 +78,6 @@ namespace Input.Implementation
                     PackageDetails = packageDetails,
                     Settings = settings
                 };
-            }
-            finally
-            {
-                workBook.Close(false);
             }
         }
 
@@ -211,6 +203,92 @@ namespace Input.Implementation
             }
 
             return nets;
+        }
+
+        public List<CrossProfileIm> ParseCrossProfiles(Excel.Worksheet worksheet)
+        {
+            var crossProfiles = new List<CrossProfileIm>();
+            if (worksheet == null)
+            {
+                return crossProfiles;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return crossProfiles;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var joint = (worksheet.Cells[rowIndex, (int)ColumnName.Joint] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                crossProfiles.Add(new CrossProfileIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    JointExists = joint != null
+                });
+            }
+
+            return crossProfiles;
+        }
+
+        public List<CrossMountIm> ParseCrossMounts(Excel.Worksheet worksheet)
+        {
+            var crossMounts = new List<CrossMountIm>();
+            if (worksheet == null)
+            {
+                return crossMounts;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return crossMounts;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var joint = (worksheet.Cells[rowIndex, (int)ColumnName.Joint] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                crossMounts.Add(new CrossMountIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    JointExists = joint != null
+                });
+            }
+
+            return crossMounts;
         }
 
         public List<AngleIm> ParseAngles(Excel.Worksheet worksheet)
