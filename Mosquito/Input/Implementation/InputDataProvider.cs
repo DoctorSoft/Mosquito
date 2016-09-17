@@ -45,7 +45,7 @@ namespace Input.Implementation
                 var angels = ParseAngles(angelsSheet);
 
                 var mountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Mounts];
-                var mounts = ParseWorkSheet<MountIm>(mountsSheet);
+                var mounts = ParseMounts(mountsSheet);
 
                 var crossMountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.CrossMounts];
                 var crossMounts = ParseCrossMounts(crossMountsSheet);
@@ -289,6 +289,51 @@ namespace Input.Implementation
             }
 
             return crossMounts;
+        }
+
+        public List<MountIm> ParseMounts(Excel.Worksheet worksheet)
+        {
+            var mounts = new List<MountIm>();
+            if (worksheet == null)
+            {
+                return mounts;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return mounts;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
+                var clincherCount = (worksheet.Cells[rowIndex, (int)ColumnName.ClincherCount] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                mounts.Add(new MountIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Count = int.Parse(count.ToString()),
+                    ClincherCount = int.Parse(clincherCount.ToString()),
+                });
+            }
+
+            return mounts;
         }
 
         public List<AngleIm> ParseAngles(Excel.Worksheet worksheet)
