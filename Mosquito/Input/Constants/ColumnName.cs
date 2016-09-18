@@ -11,6 +11,7 @@
         Size = 5,
         Count = 5,
         Joint = 5,
-        ClincherCount = 6
+        ClincherCount = 6,
+        Inner = 7
     }
 }

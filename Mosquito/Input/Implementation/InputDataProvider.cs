@@ -51,7 +51,7 @@ namespace Input.Implementation
                 var crossMounts = ParseCrossMounts(crossMountsSheet);
 
                 var knobsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Knobs];
-                var knobs = ParseWorkSheet<KnobIm>(knobsSheet);
+                var knobs = ParseKnobs(knobsSheet);
 
                 var extraDetailsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.ExtraDetails];
                 var extraDetails = ParseWorkSheet<ExtraDetailIm>(extraDetailsSheet);
@@ -291,6 +291,49 @@ namespace Input.Implementation
             return crossMounts;
         }
 
+        public List<KnobIm> ParseKnobs(Excel.Worksheet worksheet)
+        {
+            var knobs = new List<KnobIm>();
+            if (worksheet == null)
+            {
+                return knobs;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return knobs;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                knobs.Add(new KnobIm
+                {
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Id = int.Parse(id.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Count = int.Parse(count.ToString()),
+                });
+            }
+
+            return knobs;
+        }
+
         public List<MountIm> ParseMounts(Excel.Worksheet worksheet)
         {
             var mounts = new List<MountIm>();
@@ -360,7 +403,8 @@ namespace Input.Implementation
                 var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
                 var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
                 var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
-                var clincherCount = (worksheet.Cells[rowIndex, (int)ColumnName.ClincherCount] as Excel.Range).Value;
+                var clincherCount = (worksheet.Cells[rowIndex, (int) ColumnName.ClincherCount] as Excel.Range).Value;
+                var inner = (worksheet.Cells[rowIndex, (int)ColumnName.Inner] as Excel.Range).Value;
 
                 if (id == null || name == null || price == null)
                 {
@@ -375,6 +419,7 @@ namespace Input.Implementation
                     Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
                     Count = int.Parse(count.ToString()),
                     ClincherCount = int.Parse(clincherCount.ToString()),
+                    Inner = inner != null
                 });
             }
 

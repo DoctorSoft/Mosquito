@@ -2,5 +2,6 @@
 {
     public class KnobIm: ProductIm
     {
+        public int Count { get; set; }
     }
 }
