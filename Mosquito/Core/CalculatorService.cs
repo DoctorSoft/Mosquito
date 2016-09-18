@@ -244,15 +244,31 @@ namespace Core
             return notPricedOutputData;
         }
 
+        private OutputWpfData CalculateProfile(OutputWpfData notPricedOutputData)
+        {
+            var profileIm = notPricedOutputData.Profiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentProfile.Name);
+            profileIm = profileIm ?? notPricedOutputData.Profiles.FirstOrDefault();
+            notPricedOutputData.CurrentProfile.Name = profileIm.Name;
+            var profileTolerance = notPricedOutputData.CurrentAngle.Inner ? 0 : notPricedOutputData.ProfileTolerance;
+            notPricedOutputData.CurrentProfile.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * profileTolerance)) / 500, 2);
+            notPricedOutputData.CurrentProfile.Price = Math.Round(notPricedOutputData.CurrentProfile.Count * profileIm.PricePerCount, 2);
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
             notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
 
-            var profileIm = notPricedOutputData.Profiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentProfile.Name);
-            profileIm = profileIm ?? notPricedOutputData.Profiles.FirstOrDefault();
-            notPricedOutputData.CurrentProfile.Name = profileIm.Name;
-            notPricedOutputData.CurrentProfile.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
-            notPricedOutputData.CurrentProfile.Price = Math.Round(notPricedOutputData.CurrentProfile.Count * profileIm.PricePerCount, 2);
+            var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
+            angleIm = angleIm ?? notPricedOutputData.Angles.FirstOrDefault();
+            notPricedOutputData.CurrentAngle.Name = angleIm.Name;
+            notPricedOutputData.CurrentAngle.Inner = angleIm.Inner;
+            notPricedOutputData.CurrentAngle.ClincherCount = angleIm.ClincherCount;
+            notPricedOutputData.CurrentAngle.Count = angleIm.Count;
+            notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
+
+            notPricedOutputData = CalculateProfile(notPricedOutputData);
             
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
             crossProfileIm = crossProfileIm ?? notPricedOutputData.CrossProfiles.FirstOrDefault();
@@ -271,11 +287,6 @@ namespace Core
             notPricedOutputData.CurrentCord.Name = cordIm.Name;
             notPricedOutputData.CurrentCord.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
-
-            var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
-            angleIm = angleIm ?? notPricedOutputData.Angles.FirstOrDefault();
-            notPricedOutputData.CurrentAngle.Name = angleIm.Name;
-            notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
 
             var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
             mountIm = mountIm ?? notPricedOutputData.Mounts.FirstOrDefault();
