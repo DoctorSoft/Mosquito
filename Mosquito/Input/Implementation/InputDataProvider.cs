@@ -272,6 +272,7 @@ namespace Input.Implementation
                 var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
                 var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
                 var joint = (worksheet.Cells[rowIndex, (int)ColumnName.Joint] as Excel.Range).Value;
+                var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
 
                 if (id == null || name == null || price == null)
                 {
@@ -284,6 +285,7 @@ namespace Input.Implementation
                     PricePerCount = decimal.Parse(price.ToString()),
                     Id = int.Parse(id.ToString()),
                     Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Count = int.Parse(count.ToString()),
                     JointExists = joint != null
                 });
             }

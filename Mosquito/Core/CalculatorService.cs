@@ -345,6 +345,28 @@ namespace Core
             return notPricedOutputData;
         }
 
+        private OutputWpfData CalculateCrossMounts(OutputWpfData notPricedOutputData)
+        {
+            var crossMountIm = notPricedOutputData.CrossMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossMount.Name);
+            crossMountIm = crossMountIm ?? notPricedOutputData.CrossMounts.FirstOrDefault();
+            notPricedOutputData.CurrentCrossMount.Name = crossMountIm.Name;
+            notPricedOutputData.CurrentCrossMount.Count = crossMountIm.Count;
+            notPricedOutputData.CurrentCrossMount.Price = Math.Round(notPricedOutputData.CurrentCrossMount.Count * crossMountIm.PricePerCount, 2);
+
+            return notPricedOutputData;
+        }
+
+        private OutputWpfData CalculateKnobs(OutputWpfData notPricedOutputData)
+        {
+            var knobIm = notPricedOutputData.Knobs.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentKnob.Name);
+            knobIm = knobIm ?? notPricedOutputData.Knobs.FirstOrDefault();
+            notPricedOutputData.CurrentKnob.Name = knobIm.Name;
+            notPricedOutputData.CurrentKnob.Count = knobIm.Count;
+            notPricedOutputData.CurrentKnob.Price = Math.Round(notPricedOutputData.CurrentKnob.Count * knobIm.PricePerCount, 2);
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
             notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
@@ -367,16 +389,8 @@ namespace Core
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
 
             notPricedOutputData = CalculateMounts(notPricedOutputData);
-
-            var crossMountIm = notPricedOutputData.CrossMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossMount.Name);
-            crossMountIm = crossMountIm ?? notPricedOutputData.CrossMounts.FirstOrDefault();
-            notPricedOutputData.CurrentCrossMount.Name = crossMountIm.Name;
-            notPricedOutputData.CurrentCrossMount.Price = Math.Round(notPricedOutputData.CurrentCrossMount.Count * crossMountIm.PricePerCount, 2);
-
-            var knobIm = notPricedOutputData.Knobs.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentKnob.Name);
-            knobIm = knobIm ?? notPricedOutputData.Knobs.FirstOrDefault();
-            notPricedOutputData.CurrentKnob.Name = knobIm.Name;
-            notPricedOutputData.CurrentKnob.Price = Math.Round(notPricedOutputData.CurrentKnob.Count * knobIm.PricePerCount, 2);
+            notPricedOutputData = CalculateCrossMounts(notPricedOutputData);
+            notPricedOutputData = CalculateKnobs(notPricedOutputData);
 
             foreach (var currentExtraDetail in notPricedOutputData.CurrentExtraDetails)
             {
