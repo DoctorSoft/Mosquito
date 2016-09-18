@@ -256,6 +256,46 @@ namespace Core
             return notPricedOutputData;
         }
 
+        private NetIm CalculateTheBestNetSize(List<NetIm> typedNets, decimal width, decimal height)
+        {
+            var fittedNet = typedNets.OrderBy(im => im.Size).FirstOrDefault(im => im.Size >= width);
+
+            if (fittedNet != null)
+            {
+                return fittedNet;
+            }
+
+            var maxSize = typedNets.Max(im => im.Size);
+            var minSize = typedNets.Min(im => im.Size);
+
+            if (height * 2 <= minSize)
+            {
+                return typedNets.FirstOrDefault(im => im.Size == minSize);
+            }
+
+            return typedNets.FirstOrDefault(im => im.Size == maxSize);
+        } 
+
+        private OutputWpfData CalculateNet(OutputWpfData notPricedOutputData)
+        {
+            var netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentNet.Name);
+            var netId = netIm == null ? notPricedOutputData.Nets.FirstOrDefault().Id : netIm.Id;
+
+            notPricedOutputData.Nets = notPricedOutputData.Nets
+                .GroupBy(im => im.Id)
+                .Select(ims => CalculateTheBestNetSize(ims.ToList(), notPricedOutputData.Width, notPricedOutputData.Height))
+                .ToList();
+            
+            netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Id == netId);
+            netIm = netIm ?? notPricedOutputData.Nets.FirstOrDefault();
+
+            notPricedOutputData.CurrentNet.Name = netIm.Name;
+            notPricedOutputData.CurrentNet.Count = Math.Round(((notPricedOutputData.Width * notPricedOutputData.Height) / 1000000), 2);
+            notPricedOutputData.CurrentNet.Price = Math.Round(notPricedOutputData.CurrentNet.Count * netIm.PricePerCount, 2);
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
             notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
@@ -276,11 +316,7 @@ namespace Core
             notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
-            var netIm = notPricedOutputData.Nets.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentNet.Name);
-            netIm = netIm ?? notPricedOutputData.Nets.FirstOrDefault();
-            notPricedOutputData.CurrentNet.Name = netIm.Name;
-            notPricedOutputData.CurrentNet.Count = Math.Round(((notPricedOutputData.Width * notPricedOutputData.Height) / 1000000), 2);
-            notPricedOutputData.CurrentNet.Price = Math.Round(notPricedOutputData.CurrentNet.Count * netIm.PricePerCount, 2);
+            notPricedOutputData = CalculateNet(notPricedOutputData);
 
             var cordIm = notPricedOutputData.Cords.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCord.Name);
             cordIm = cordIm ?? notPricedOutputData.Cords.FirstOrDefault();

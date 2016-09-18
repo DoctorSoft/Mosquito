@@ -2,5 +2,6 @@
 {
     public class CurrentNet: CurrentProduct
     {
+        public int Id { get; set; }
     }
 }
