@@ -41,6 +41,23 @@ namespace Mosquito
             }
         }
 
+        private void InitRequiredExtraDetailsGridBinding()
+        {
+            var items = data.RequiredExtraDetails.Select(im => new ExtraDetailViewModel
+            {
+                Name = im.Name,
+                Price = im.Price,
+                Count = im.Count,
+                ItemId = im.Id
+            });
+
+            RequiredExtraDetailsDataGrid.Items.Clear();
+            foreach (var item in items)
+            {
+                RequiredExtraDetailsDataGrid.Items.Add(item);
+            }
+        }
+
         private void InitExtraDetailsGridBinding()
         {
             var items = data.CurrentExtraDetails.Select(im => new ExtraDetailViewModel
@@ -110,6 +127,7 @@ namespace Mosquito
             SetProductData(KnobComboBox, KnobCountSingleUpDown, null, KnobPriceLabel, data.Knobs, data.CurrentKnob);
 
             InitExtraDetailsGridBinding();
+            InitRequiredExtraDetailsGridBinding();
         }
 
         private void HeightSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -345,6 +363,11 @@ namespace Mosquito
             var newValue = e.AddedItems[0] as string;
             data = calculatorService.ChangeSystem(newValue, data);
             RefreshFormValues();
+        }
+
+        private void ExtraDetailsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
     }

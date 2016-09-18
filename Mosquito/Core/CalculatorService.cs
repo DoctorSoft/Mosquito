@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Input.Constants;
 using Input.InputModels;
 using Input.Interfaces;
 using OutputWPF.OutputWPFModels;
@@ -69,6 +70,7 @@ namespace Core
                 },
                 ExtraDetails = inputData.ExtraDetails,
                 CurrentExtraDetails = new List<CurrentExtraDetail>(),
+                RequiredExtraDetails = new List<CurrentExtraDetail>(),
                 WorkPrice = inputData.Settings.WorkPrice,
                 OtherSpendingPrice = inputData.Settings.OtherSpendingPrice,
                 CrossProfileTolerance = inputData.Settings.CrossProfileTolerance,
@@ -240,6 +242,7 @@ namespace Core
             notPricedOutputData.Knobs = inputData.Knobs.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.RequiredExtraDetails = new List<CurrentExtraDetail>();
 
             return notPricedOutputData;
         }
@@ -296,10 +299,8 @@ namespace Core
             return notPricedOutputData;
         }
 
-        private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
+        private OutputWpfData CalculateAngles(OutputWpfData notPricedOutputData)
         {
-            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
-
             var angleIm = notPricedOutputData.Angles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentAngle.Name);
             angleIm = angleIm ?? notPricedOutputData.Angles.FirstOrDefault();
             notPricedOutputData.CurrentAngle.Name = angleIm.Name;
@@ -308,6 +309,25 @@ namespace Core
             notPricedOutputData.CurrentAngle.Count = angleIm.Count;
             notPricedOutputData.CurrentAngle.Price = Math.Round(notPricedOutputData.CurrentAngle.Count * angleIm.PricePerCount, 2);
 
+            if (angleIm.ClincherCount != 0)
+            {
+                var clincher = inputData.PackageDetails[(int) PackageDetail.Clincher];
+                notPricedOutputData.RequiredExtraDetails.Add(new CurrentExtraDetail
+                {
+                    Name = clincher.Name + " (" + notPricedOutputData.CurrentAngle.Name + ")",
+                    Count = angleIm.ClincherCount,
+                    Price = clincher.PricePerCount * angleIm.ClincherCount
+                });
+            }
+
+            return notPricedOutputData;
+        }
+
+        private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
+        {
+            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
+
+            notPricedOutputData = CalculateAngles(notPricedOutputData);
             notPricedOutputData = CalculateProfile(notPricedOutputData);
             
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
@@ -362,6 +382,7 @@ namespace Core
                                              notPricedOutputData.CurrentCrossMount.Price +
                                              notPricedOutputData.CurrentKnob.Price +
                                              notPricedOutputData.CurrentExtraDetails.Select(detail => detail.Price).Sum() +
+                                             notPricedOutputData.RequiredExtraDetails.Select(detail => detail.Price).Sum() +
                                              notPricedOutputData.TrashPrice +
                                              notPricedOutputData.WorkPrice + 
                                              notPricedOutputData.OtherSpendingPrice +

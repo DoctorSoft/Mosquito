@@ -49,6 +49,8 @@ namespace OutputWPF.OutputWPFModels
 
         public List<CurrentExtraDetail> CurrentExtraDetails { get; set; }
 
+        public List<CurrentExtraDetail> RequiredExtraDetails { get; set; }
+
         public decimal WorkPrice { get; set; }
 
         public decimal TrashPrice { get; set; }
