@@ -323,6 +323,28 @@ namespace Core
             return notPricedOutputData;
         }
 
+        private OutputWpfData CalculateMounts(OutputWpfData notPricedOutputData)
+        {
+            var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
+            mountIm = mountIm ?? notPricedOutputData.Mounts.FirstOrDefault();
+            notPricedOutputData.CurrentMount.Name = mountIm.Name;
+            notPricedOutputData.CurrentMount.Count = mountIm.Count;
+            notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
+
+            if (mountIm.ClincherCount != 0)
+            {
+                var clincher = inputData.PackageDetails[(int)PackageDetail.Clincher];
+                notPricedOutputData.RequiredExtraDetails.Add(new CurrentExtraDetail
+                {
+                    Name = clincher.Name + " (" + notPricedOutputData.CurrentMount.Name + ")",
+                    Count = mountIm.ClincherCount,
+                    Price = clincher.PricePerCount * mountIm.ClincherCount
+                });
+            }
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
         {
             notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
@@ -344,10 +366,7 @@ namespace Core
             notPricedOutputData.CurrentCord.Count = Math.Round((notPricedOutputData.Width + notPricedOutputData.Height - (2 * notPricedOutputData.ProfileTolerance)) / 500, 2);
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
 
-            var mountIm = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name);
-            mountIm = mountIm ?? notPricedOutputData.Mounts.FirstOrDefault();
-            notPricedOutputData.CurrentMount.Name = mountIm.Name;
-            notPricedOutputData.CurrentMount.Price = Math.Round(notPricedOutputData.CurrentMount.Count * mountIm.PricePerCount, 2);
+            notPricedOutputData = CalculateMounts(notPricedOutputData);
 
             var crossMountIm = notPricedOutputData.CrossMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossMount.Name);
             crossMountIm = crossMountIm ?? notPricedOutputData.CrossMounts.FirstOrDefault();
