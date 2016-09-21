@@ -106,8 +106,16 @@
         <ComboBox Name="AdditionalCrossWithGrooveComboBox" HorizontalAlignment="Left" Margin="178,393,0,0" VerticalAlignment="Top" Width="250"/>
         <CheckBox Name="AdditionalCrossWithGrooveCheckBox" Content="Учитывать" HorizontalAlignment="Left" Margin="438,398,0,0" VerticalAlignment="Top"/>
 
+        <!-- additional mount price-->
+        <Label Content="Доп. крепление:" HorizontalAlignment="Left" Margin="10,423,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="AdditionalMountComboBox" HorizontalAlignment="Left" Margin="178,423,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="MountComboBox_SelectionChanged"/>
+        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="438,423,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="AdditionalMountCountSingleUpDown"/>
+        <Label Name="AdditionalMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="488,423,0,0" VerticalAlignment="Top"/>
+        <Label Name="AdditionalMountPriceLabel" HorizontalAlignment="Left" Margin="558,423,0,0" VerticalAlignment="Top"/>
+        <Label Name="AdditionalMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="593,423,0,0" VerticalAlignment="Top"/>
+        
         <!-- extra detail elements -->
-        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,608,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
+        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,640,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
             <DataGrid.BindingGroup>
                 <BindingGroup/>
             </DataGrid.BindingGroup>
@@ -136,7 +144,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="33,581,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
+        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="33,613,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
 
         <!-- work price -->
         <Label Content="Работа:" HorizontalAlignment="Left" Margin="20,863,0,0" VerticalAlignment="Top"/>
@@ -159,7 +167,7 @@
         <Label Content="Итого:" HorizontalAlignment="Left" Margin="476,958,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="553,958,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         <Label Content="р." HorizontalAlignment="Left" Margin="607,958,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="RequiredExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,425,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
+        <DataGrid x:Name="RequiredExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,457,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
             <DataGrid.BindingGroup>
                 <BindingGroup/>
             </DataGrid.BindingGroup>
