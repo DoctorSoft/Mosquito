@@ -413,6 +413,7 @@ namespace Input.Implementation
                 var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
                 var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
                 var allowedMounts = (worksheet.Cells[rowIndex, (int)ColumnName.AllowedMounts] as Excel.Range).Value;
+                var clincherCount = (worksheet.Cells[rowIndex, (int)ColumnName.ClincherCount] as Excel.Range).Value;
 
                 if (id == null || name == null || price == null)
                 {
@@ -426,7 +427,8 @@ namespace Input.Implementation
                     PricePerCount = decimal.Parse(price.ToString()),
                     Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
                     Count = int.Parse(count.ToString()),
-                    AllowedMounts = allowedMounts == null ? new List<int>() : ((string)allowedMounts.ToString()).Split(',').Select(int.Parse).ToList()
+                    AllowedMounts = allowedMounts == null ? new List<int>() : ((string)allowedMounts.ToString()).Split(',').Select(int.Parse).ToList(),
+                    ClincherCount = int.Parse(clincherCount.ToString()),
                 });
             }
 

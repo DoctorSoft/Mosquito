@@ -6,6 +6,8 @@ namespace Input.InputModels
     {
         public int Count { get; set; }
 
-        public List<int> AllowedMounts { get; set; } 
+        public List<int> AllowedMounts { get; set; }
+
+        public int ClincherCount { get; set; }
     }
 }
