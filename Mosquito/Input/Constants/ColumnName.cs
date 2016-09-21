@@ -12,7 +12,7 @@
         Count = 5,
         Joint = 6,
         ClincherCount = 6,
-        AllowedMounts = 6,
+        AllowedMounts = 7,
         Inner = 7,
         Felt = 7
     }
