@@ -14,6 +14,8 @@ namespace Core
 
         OutputWpfData ChangeSystem(string systemName, OutputWpfData oldData);
 
+        OutputWpfData ChangeExtraCrossProfileWithGroove(string profileName, OutputWpfData oldData);
+
         OutputWpfData ChangeProfile(string profileName, OutputWpfData oldData);
 
         OutputWpfData ChangeCrossProfile(string crossProfileName, OutputWpfData oldData);
@@ -47,5 +49,7 @@ namespace Core
         OutputWpfData UpdateExtraDetailCount(Guid id, decimal newCount, OutputWpfData oldData);
 
         OutputWpfData CheckExtraCrossProfile(bool enabled, OutputWpfData oldData);
+
+        OutputWpfData CheckExtraCrossProfileWithGroove(bool enabled, OutputWpfData oldData);
     }
 }

@@ -102,7 +102,30 @@ namespace Mosquito
         private void SetAdditionalCrossProfileData(ComboBox comboBox, SingleUpDown sizeSingleUpDown, Label sizeLabel,
             Label priceLabel, List<CrossProfileIm> products, CurrentProduct currentProduct, CheckBox checkBox)
         {
+            checkBox.IsChecked = data.ExtraCrossProfileEnabled;
+
             if (!data.ExtraCrossProfileAllowed)
+            {
+                comboBox.IsEnabled = false;
+                checkBox.IsEnabled = false;
+                checkBox.IsChecked = false;
+            }
+            else
+            {
+                comboBox.IsEnabled = true;
+                checkBox.IsEnabled = true;
+            }
+
+            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, sizeLabel, products, currentProduct);
+
+        }
+
+        private void SetAdditionalCrossProfileWithGrooveData(ComboBox comboBox, SingleUpDown sizeSingleUpDown, Label sizeLabel,
+            Label priceLabel, List<CrossProfileIm> products, CurrentProduct currentProduct, CheckBox checkBox)
+        {
+            checkBox.IsChecked = data.ExtraCrossProfileWithGrooveEnabled;
+
+            if (!data.ExtraCrossProfileWithGrooveAllowed)
             {
                 comboBox.IsEnabled = false;
                 checkBox.IsEnabled = false;
@@ -139,6 +162,7 @@ namespace Mosquito
             SetProductData(ProfileComboBox, null, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
             SetProductData(CrossProfileComboBox, null, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
             SetAdditionalCrossProfileData(AdditionalCrossWithoutGrooveComboBox, null, null, null, data.CrossProfiles.Where(im => im.Name == data.CurrentCrossProfile.Name).ToList(), data.CurrentCrossProfile, AdditionalCrossWithoutGrooveCheckBox);
+            SetAdditionalCrossProfileWithGrooveData(AdditionalCrossWithGrooveComboBox, null, null, null, data.CrossProfilesWithGroove, data.CurrentCrossProfileWithGroove, AdditionalCrossWithGrooveCheckBox);
             SetProductData(NetComboBox, null, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
             SetProductData(CordComboBox, null, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
             SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
@@ -395,6 +419,25 @@ namespace Mosquito
             var checkedValue = ((CheckBox) sender).IsChecked;
 
             data = calculatorService.CheckExtraCrossProfile(checkedValue.Value, data);
+            RefreshFormValues();
+        }
+
+        private void AdditionalCrossWithGrooveCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var checkedValue = ((CheckBox)sender).IsChecked;
+
+            data = calculatorService.CheckExtraCrossProfileWithGroove(checkedValue.Value, data);
+            RefreshFormValues();
+        }
+
+        private void AdditionalCrossWithGrooveComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeExtraCrossProfileWithGroove(newValue, data);
             RefreshFormValues();
         }
 

@@ -19,11 +19,19 @@ namespace OutputWPF.OutputWPFModels
 
         public List<CrossProfileIm> CrossProfiles { get; set; }
 
+        public List<CrossProfileIm> CrossProfilesWithGroove { get; set; } 
+
         public CurrentCrossProfile CurrentCrossProfile { get; set; }
+
+        public CurrentCrossProfile CurrentCrossProfileWithGroove { get; set; }
 
         public bool ExtraCrossProfileAllowed { get; set; }
 
         public bool ExtraCrossProfileEnabled { get; set; }
+
+        public bool ExtraCrossProfileWithGrooveAllowed { get; set; }
+
+        public bool ExtraCrossProfileWithGrooveEnabled { get; set; }
 
         public List<NetIm> Nets { get; set; }
 

@@ -38,6 +38,11 @@ namespace Core
                 {
                     Name = inputData.CrossProfiles.FirstOrDefault().Name
                 },
+                CrossProfilesWithGroove = inputData.CrossProfiles,
+                CurrentCrossProfileWithGroove = new CurrentCrossProfile
+                {
+                    Name = inputData.CrossProfiles.FirstOrDefault().Name
+                },
                 Nets = inputData.Nets,
                 CurrentNet = new CurrentNet
                 {
@@ -100,6 +105,15 @@ namespace Core
             oldData.CurrentSystem = new CurrentSystem
             {
                 Name = systemName
+            };
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeExtraCrossProfileWithGroove(string profileName, OutputWpfData oldData)
+        {
+            oldData.CurrentCrossProfileWithGroove = new CurrentCrossProfile
+            {
+                Name = profileName
             };
             return Calculate(oldData);
         }
@@ -232,6 +246,23 @@ namespace Core
         public OutputWpfData CheckExtraCrossProfile(bool enabled, OutputWpfData oldData)
         {
             oldData.ExtraCrossProfileEnabled = enabled;
+
+            if (oldData.ExtraCrossProfileEnabled)
+            {
+                oldData.ExtraCrossProfileWithGrooveEnabled = false;
+            }
+
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData CheckExtraCrossProfileWithGroove(bool enabled, OutputWpfData oldData)
+        {
+            oldData.ExtraCrossProfileWithGrooveEnabled = enabled;
+
+            if (oldData.ExtraCrossProfileWithGrooveEnabled)
+            {
+                oldData.ExtraCrossProfileEnabled = false;
+            }
 
             return Calculate(oldData);
         }
@@ -392,6 +423,7 @@ namespace Core
             var allowedCrossProfiles = inputData.CrossProfiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
 
             notPricedOutputData.CrossProfiles = allowedCrossProfiles.Where(im => !im.JointExists).ToList();
+            notPricedOutputData.CrossProfilesWithGroove = allowedCrossProfiles.Where(im => im.JointExists).ToList();
 
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
             crossProfileIm = crossProfileIm ?? notPricedOutputData.CrossProfiles.FirstOrDefault();
@@ -399,11 +431,23 @@ namespace Core
             notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
+            var crossProfileWithGrooveIm = notPricedOutputData.CrossProfilesWithGroove.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfileWithGroove.Name);
+            crossProfileWithGrooveIm = crossProfileWithGrooveIm ?? notPricedOutputData.CrossProfilesWithGroove.FirstOrDefault();
+            notPricedOutputData.CurrentCrossProfileWithGroove.Name = crossProfileWithGrooveIm.Name;
+            notPricedOutputData.CurrentCrossProfileWithGroove.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
+            notPricedOutputData.CurrentCrossProfileWithGroove.Price = Math.Round(notPricedOutputData.CurrentCrossProfileWithGroove.Count * crossProfileWithGrooveIm.PricePerCount, 2);
+
             notPricedOutputData.ExtraCrossProfileAllowed = notPricedOutputData.Width > 1600; //todo: move to settings
+            notPricedOutputData.ExtraCrossProfileWithGrooveAllowed = notPricedOutputData.Height > 1000; //todo: move to settings
 
             if (!notPricedOutputData.ExtraCrossProfileAllowed)
             {
                 notPricedOutputData.ExtraCrossProfileEnabled = false;
+            }
+
+            if (!notPricedOutputData.ExtraCrossProfileWithGrooveAllowed)
+            {
+                notPricedOutputData.ExtraCrossProfileWithGrooveEnabled = false;
             }
 
             return notPricedOutputData;
@@ -460,6 +504,11 @@ namespace Core
             if (notPricedOutputData.ExtraCrossProfileEnabled)
             {
                 currentsSum += notPricedOutputData.CurrentCrossProfile.Price;
+            }
+
+            if (notPricedOutputData.ExtraCrossProfileWithGrooveEnabled)
+            {
+                currentsSum += notPricedOutputData.CurrentCrossProfileWithGroove.Price;
             }
 
             notPricedOutputData.TotalPrice = currentsSum;
