@@ -7,8 +7,8 @@
     xmlns:components="clr-namespace:Mosquito.Components"
     x:Class="Mosquito.MainWindow"
         mc:Ignorable="d"
-        Title="Колькулятор Стоимости москитных сеток " Height="1050" Width="729" ResizeMode="NoResize">
-    <Grid x:Name="MailGrid" HorizontalAlignment="Left" Width="720" Margin="0,10,0,4" RenderTransformOrigin="0.5,0.5">
+        Title="Колькулятор Стоимости москитных сеток " Height="620" Width="1230" ResizeMode="NoResize">
+    <Grid x:Name="MailGrid" HorizontalAlignment="Left" Width="1220" Margin="0,10,0,17" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform ScaleY="1" ScaleX="1"/>
@@ -113,9 +113,9 @@
         <Label Name="AdditionalMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="488,423,0,0" VerticalAlignment="Top"/>
         <Label Name="AdditionalMountPriceLabel" HorizontalAlignment="Left" Margin="558,423,0,0" VerticalAlignment="Top"/>
         <Label Name="AdditionalMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="593,423,0,0" VerticalAlignment="Top"/>
-        
+
         <!-- extra detail elements -->
-        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,640,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
+        <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="659,203,0,0" VerticalAlignment="Top" Height="139" Width="541" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
             <DataGrid.BindingGroup>
                 <BindingGroup/>
             </DataGrid.BindingGroup>
@@ -144,30 +144,30 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="33,613,0,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
+        <Button Content="Добавить" Name="AddExtraDetailButton" HorizontalAlignment="Left" Margin="659,176,-125,0" VerticalAlignment="Top" Width="186" Click="AddExtraDetailButton_Click"/>
 
         <!-- work price -->
-        <Label Content="Работа:" HorizontalAlignment="Left" Margin="20,863,0,0" VerticalAlignment="Top"/>
-        <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="160,863,0,0" VerticalAlignment="Top"/>
-        <Label Content="р." HorizontalAlignment="Left" Margin="180,863,0,0" VerticalAlignment="Top"/>
+        <Label Content="Работа:" HorizontalAlignment="Left" Margin="646,426,0,0" VerticalAlignment="Top"/>
+        <Label Name="WorkPriceLabel" HorizontalAlignment="Left" Margin="786,426,-76,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="806,426,-106,0" VerticalAlignment="Top"/>
 
         <!-- trash price -->
-        <Label Content="Отходы:" HorizontalAlignment="Left" Margin="20,793,0,0" VerticalAlignment="Top"/>
-        <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="160,793,0,0" VerticalAlignment="Top"/>
-        <Label Content="(" HorizontalAlignment="Left" Margin="191,793,0,0" VerticalAlignment="Top"/>
-        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="196,793,0,0" VerticalAlignment="Top"/>
-        <Label Content="%)" HorizontalAlignment="Left" Margin="216,793,0,0" VerticalAlignment="Top"/>
+        <Label Content="Отходы:" HorizontalAlignment="Left" Margin="646,356,0,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPriceLabel" HorizontalAlignment="Left" Margin="786,356,-76,0" VerticalAlignment="Top"/>
+        <Label Content="(" HorizontalAlignment="Left" Margin="817,356,-111,0" VerticalAlignment="Top"/>
+        <Label Name="TrashPercentLabel" HorizontalAlignment="Left" Margin="822,356,-112,0" VerticalAlignment="Top"/>
+        <Label Content="%)" HorizontalAlignment="Left" Margin="842,356,-145,0" VerticalAlignment="Top"/>
 
         <!-- other price -->
-        <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="20,923,0,0" VerticalAlignment="Top"/>
-        <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="160,923,0,0" VerticalAlignment="Top"/>
-        <Label Content="р." HorizontalAlignment="Left" Margin="180,923,0,0" VerticalAlignment="Top"/>
+        <Label Content="Прочие расходы:" HorizontalAlignment="Left" Margin="646,486,-31,0" VerticalAlignment="Top"/>
+        <Label Name="OtherPendingLabel" HorizontalAlignment="Left" Margin="786,486,-76,0" VerticalAlignment="Top"/>
+        <Label Content="р." HorizontalAlignment="Left" Margin="806,486,-106,0" VerticalAlignment="Top"/>
 
         <!--total price-->
-        <Label Content="Итого:" HorizontalAlignment="Left" Margin="476,958,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="553,958,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="р." HorizontalAlignment="Left" Margin="607,958,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="RequiredExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,457,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
+        <Label Content="Итого:" HorizontalAlignment="Left" Margin="1061,520,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Name="TotalPriceLabel" HorizontalAlignment="Left" Margin="1138,520,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="р." HorizontalAlignment="Left" Margin="1192,520,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="RequiredExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="659,20,0,0" VerticalAlignment="Top" Height="139" Width="541" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
             <DataGrid.BindingGroup>
                 <BindingGroup/>
             </DataGrid.BindingGroup>
@@ -179,5 +179,15 @@
                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="-2,-112,0,0" VerticalAlignment="Top" Width="551" RenderTransformOrigin="1.137,0.46">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
     </Grid>
 </Window>
