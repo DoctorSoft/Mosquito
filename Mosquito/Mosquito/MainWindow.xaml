@@ -99,7 +99,12 @@
         <!-- additional cross without groove-->
         <Label Content="Доп. поперечина без паза" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top"/>
         <ComboBox Name="AdditionalCrossWithoutGrooveComboBox" HorizontalAlignment="Left" Margin="178,363,0,0" VerticalAlignment="Top" Width="250"/>
-        <CheckBox Name="AdditionalCrossWithoutGrooveCheckBox" Content="Учитывать" HorizontalAlignment="Left" Margin="441,368,0,0" VerticalAlignment="Top"/>
+        <CheckBox Name="AdditionalCrossWithoutGrooveCheckBox" Content="Учитывать" HorizontalAlignment="Left" Margin="438,368,0,0" VerticalAlignment="Top"/>
+
+        <!-- additional cross with groove-->
+        <Label Content="Доп. поперечина с пазом" HorizontalAlignment="Left" Margin="10,393,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="AdditionalCrossWithGrooveComboBox" HorizontalAlignment="Left" Margin="178,393,0,0" VerticalAlignment="Top" Width="250"/>
+        <CheckBox Name="AdditionalCrossWithGrooveCheckBox" Content="Учитывать" HorizontalAlignment="Left" Margin="438,398,0,0" VerticalAlignment="Top"/>
 
         <!-- extra detail elements -->
         <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="33,608,0,0" VerticalAlignment="Top" Height="139" Width="677" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
