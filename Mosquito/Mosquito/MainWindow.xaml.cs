@@ -125,6 +125,7 @@ namespace Mosquito
             SetProductData(MountComboBox, MountCountSingleUpDown, null, MountPriceLabel, data.Mounts, data.CurrentMount);
             SetProductData(CrossMountComboBox, CrossMountCountSingleUpDown, null, CrossMountPriceLabel, data.CrossMounts, data.CurrentCrossMount);
             SetProductData(KnobComboBox, KnobCountSingleUpDown, null, KnobPriceLabel, data.Knobs, data.CurrentKnob);
+            SetProductData(ExtraMountComboBox, ExtraMountCountSingleUpDown, null, ExtraMountPriceLabel, data.ExtraMounts, data.CurrentExtraMount);
 
             InitExtraDetailsGridBinding();
             InitRequiredExtraDetailsGridBinding();
@@ -364,7 +365,29 @@ namespace Mosquito
             data = calculatorService.ChangeSystem(newValue, data);
             RefreshFormValues();
         }
+        private void ExtraMountComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            var newValue = e.AddedItems[0] as string;
+            data = calculatorService.ChangeExtraMount(newValue, data);
+            RefreshFormValues();
+        }
 
+        private void ExtraMountCountSingleUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            var newValue = e.NewValue;
+            data = calculatorService.ChangeExtraMountCount(decimal.Parse(newValue.ToString()), data);
+            RefreshFormValues();
+        }
+        
         private void ExtraDetailsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 

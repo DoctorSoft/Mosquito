@@ -37,6 +37,10 @@ namespace OutputWPF.OutputWPFModels
 
         public CurrentMount CurrentMount { get; set; }
 
+        public List<ExtraMountIm> ExtraMounts { get; set; }
+
+        public CurrentExtraMount CurrentExtraMount { get; set; }
+
         public List<CrossMountIm> CrossMounts { get; set; }
 
         public CurrentCrossMount CurrentCrossMount { get; set; }

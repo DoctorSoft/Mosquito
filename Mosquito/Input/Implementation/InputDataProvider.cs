@@ -47,6 +47,9 @@ namespace Input.Implementation
                 var mountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.Mounts];
                 var mounts = ParseMounts(mountsSheet);
 
+                var extraMountsSheet = (Excel.Worksheet)workBook.Worksheets.Item[(int)SheetNumber.ExtraMounts];
+                var extraMounts = ParseExtraMounts(extraMountsSheet);
+
                 var crossMountsSheet = (Excel.Worksheet) workBook.Worksheets.Item[(int) SheetNumber.CrossMounts];
                 var crossMounts = ParseCrossMounts(crossMountsSheet);
 
@@ -72,6 +75,7 @@ namespace Input.Implementation
                     Cords = cords,
                     Angles = angels,
                     Mounts = mounts,
+                    ExtraMounts = extraMounts,
                     CrossMounts = crossMounts,
                     Knobs = knobs,
                     ExtraDetails = extraDetails,
@@ -381,6 +385,52 @@ namespace Input.Implementation
             }
 
             return mounts;
+        }
+
+
+        public List<ExtraMountIm> ParseExtraMounts(Excel.Worksheet worksheet)
+        {
+            var extraMounts = new List<ExtraMountIm>();
+            if (worksheet == null)
+            {
+                return extraMounts;
+            }
+
+            var range = worksheet.UsedRange;
+
+            if (range == null)
+            {
+                return extraMounts;
+            }
+
+            var rowCount = range.Rows.Count;
+
+            for (var rowIndex = (int)RowName.StartData; rowIndex <= rowCount; rowIndex++)
+            {
+                var id = (worksheet.Cells[rowIndex, (int)ColumnName.Id] as Excel.Range).Value;
+                var name = (worksheet.Cells[rowIndex, (int)ColumnName.Name] as Excel.Range).Value;
+                var price = (worksheet.Cells[rowIndex, (int)ColumnName.PricePerCount] as Excel.Range).Value;
+                var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
+                var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
+                var allowedMounts = (worksheet.Cells[rowIndex, (int)ColumnName.AllowedMounts] as Excel.Range).Value;
+
+                if (id == null || name == null || price == null)
+                {
+                    continue;
+                }
+
+                extraMounts.Add(new ExtraMountIm
+                {
+                    Id = int.Parse(id.ToString()),
+                    Name = name.ToString(),
+                    PricePerCount = decimal.Parse(price.ToString()),
+                    Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
+                    Count = int.Parse(count.ToString()),
+                    AllowedMounts = allowedMounts == null ? new List<int>() : ((string)allowedMounts.ToString()).Split(',').Select(int.Parse).ToList()
+                });
+            }
+
+            return extraMounts;
         }
 
         public List<AngleIm> ParseAngles(Excel.Worksheet worksheet)

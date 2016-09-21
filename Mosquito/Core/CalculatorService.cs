@@ -58,6 +58,11 @@ namespace Core
                 {
                     Name = inputData.Mounts.FirstOrDefault().Name
                 },
+                ExtraMounts = inputData.ExtraMounts,
+                CurrentExtraMount = new CurrentExtraMount
+                {
+                    Name = inputData.ExtraMounts.FirstOrDefault().Name
+                },
                 CrossMounts = inputData.CrossMounts,
                 CurrentCrossMount = new CurrentCrossMount()
                 {
@@ -161,6 +166,18 @@ namespace Core
         public OutputWpfData ChangeMountCount(decimal mountCount, OutputWpfData oldData)
         {
             oldData.CurrentMount.Count = mountCount;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeExtraMount(string extraMountName, OutputWpfData oldData)
+        {
+            oldData.CurrentExtraMount.Name = extraMountName;
+            return Calculate(oldData);
+        }
+
+        public OutputWpfData ChangeExtraMountCount(decimal extraMountCount, OutputWpfData oldData)
+        {
+            oldData.CurrentExtraMount.Count = extraMountCount;
             return Calculate(oldData);
         }
 
@@ -368,6 +385,17 @@ namespace Core
             return notPricedOutputData;
         }
 
+        private OutputWpfData CalculateExtraMounts(OutputWpfData notPricedOutputData)
+        {
+            var extraMountIm = notPricedOutputData.ExtraMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentExtraMount.Name);
+            extraMountIm = extraMountIm ?? notPricedOutputData.ExtraMounts.FirstOrDefault();
+            notPricedOutputData.CurrentExtraMount.Name = extraMountIm.Name;
+            notPricedOutputData.CurrentExtraMount.Count = extraMountIm.Count;
+            notPricedOutputData.CurrentExtraMount.Price = Math.Round(notPricedOutputData.CurrentExtraMount.Count * extraMountIm.PricePerCount, 2);
+
+            return notPricedOutputData;
+        }
+
         private OutputWpfData CalculateKnobs(OutputWpfData notPricedOutputData)
         {
             var knobIm = notPricedOutputData.Knobs.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentKnob.Name);
@@ -401,6 +429,7 @@ namespace Core
             notPricedOutputData.CurrentCord.Price = Math.Round(notPricedOutputData.CurrentCord.Count*cordIm.PricePerCount, 2);
 
             notPricedOutputData = CalculateMounts(notPricedOutputData);
+            notPricedOutputData = CalculateExtraMounts(notPricedOutputData);
             notPricedOutputData = CalculateCrossMounts(notPricedOutputData);
             notPricedOutputData = CalculateKnobs(notPricedOutputData);
 

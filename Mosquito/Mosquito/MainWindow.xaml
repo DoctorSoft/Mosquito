@@ -108,11 +108,11 @@
 
         <!-- additional mount price-->
         <Label Content="Доп. крепление:" HorizontalAlignment="Left" Margin="10,423,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="AdditionalMountComboBox" HorizontalAlignment="Left" Margin="178,423,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="MountComboBox_SelectionChanged"/>
-        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="438,423,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="AdditionalMountCountSingleUpDown"/>
-        <Label Name="AdditionalMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="488,423,0,0" VerticalAlignment="Top"/>
-        <Label Name="AdditionalMountPriceLabel" HorizontalAlignment="Left" Margin="558,423,0,0" VerticalAlignment="Top"/>
-        <Label Name="AdditionalMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="593,423,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ExtraMountComboBox" HorizontalAlignment="Left" Margin="178,423,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="ExtraMountComboBox_SelectionChanged"/>
+        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="438,423,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ExtraMountCountSingleUpDown"  ValueChanged="ExtraMountCountSingleUpDown_ValueChanged"/>
+        <Label Name="ExtraMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="488,423,0,0" VerticalAlignment="Top"/>
+        <Label Name="ExtraMountPriceLabel" HorizontalAlignment="Left" Margin="558,423,0,0" VerticalAlignment="Top"/>
+        <Label Name="ExtraMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="593,423,0,0" VerticalAlignment="Top"/>
 
         <!-- extra detail elements -->
         <DataGrid Name="ExtraDetailsDataGrid" HorizontalAlignment="Left" Margin="659,203,0,0" VerticalAlignment="Top" Height="139" Width="541" SelectionChanged="ExtraDetailsDataGrid_SelectionChanged">
