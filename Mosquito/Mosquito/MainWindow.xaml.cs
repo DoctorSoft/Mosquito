@@ -99,6 +99,25 @@ namespace Mosquito
 
         }
 
+        private void SetAdditionalCrossProfileData(ComboBox comboBox, SingleUpDown sizeSingleUpDown, Label sizeLabel,
+            Label priceLabel, List<CrossProfileIm> products, CurrentProduct currentProduct, CheckBox checkBox)
+        {
+            if (!data.ExtraCrossProfileAllowed)
+            {
+                comboBox.IsEnabled = false;
+                checkBox.IsEnabled = false;
+                checkBox.IsChecked = false;
+            }
+            else
+            {
+                comboBox.IsEnabled = true;
+                checkBox.IsEnabled = true;
+            }
+
+            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, sizeLabel, products, currentProduct);
+
+        }
+
         private void SetSystemData(ComboBox comboBox, List<SystemIm> systems, CurrentSystem currentSystem)
         {
             comboBox.ItemsSource = systems.Select(im => im.Name);
@@ -119,6 +138,7 @@ namespace Mosquito
 
             SetProductData(ProfileComboBox, null, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
             SetProductData(CrossProfileComboBox, null, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
+            SetAdditionalCrossProfileData(AdditionalCrossWithoutGrooveComboBox, null, null, null, data.CrossProfiles.Where(im => im.Name == data.CurrentCrossProfile.Name).ToList(), data.CurrentCrossProfile, AdditionalCrossWithoutGrooveCheckBox);
             SetProductData(NetComboBox, null, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
             SetProductData(CordComboBox, null, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
             SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
@@ -391,6 +411,14 @@ namespace Mosquito
         private void ExtraDetailsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void AdditionalCrossWithoutGrooveCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var checkedValue = ((CheckBox) sender).IsChecked;
+
+            data = calculatorService.CheckExtraCrossProfile(checkedValue.Value, data);
+            RefreshFormValues();
         }
 
     }

@@ -21,6 +21,10 @@ namespace OutputWPF.OutputWPFModels
 
         public CurrentCrossProfile CurrentCrossProfile { get; set; }
 
+        public bool ExtraCrossProfileAllowed { get; set; }
+
+        public bool ExtraCrossProfileEnabled { get; set; }
+
         public List<NetIm> Nets { get; set; }
 
         public CurrentNet CurrentNet { get; set; }

@@ -49,5 +49,7 @@ namespace Core
         OutputWpfData UpdateExtraDetailName(Guid id, string newName, OutputWpfData oldData);
 
         OutputWpfData UpdateExtraDetailCount(Guid id, decimal newCount, OutputWpfData oldData);
+
+        OutputWpfData CheckExtraCrossProfile(bool enabled, OutputWpfData oldData);
     }
 }

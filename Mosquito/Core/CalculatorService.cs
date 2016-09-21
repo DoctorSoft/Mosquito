@@ -246,6 +246,13 @@ namespace Core
             return Calculate(oldData);
         }
 
+        public OutputWpfData CheckExtraCrossProfile(bool enabled, OutputWpfData oldData)
+        {
+            oldData.ExtraCrossProfileEnabled = enabled;
+
+            return Calculate(oldData);
+        }
+
         private OutputWpfData SetAllowedImProductsBySystem(OutputWpfData notPricedOutputData)
         {
             var systemIm = inputData.Systems.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentSystem.Name);
@@ -407,19 +414,36 @@ namespace Core
             return notPricedOutputData;
         }
 
-        private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
+        private OutputWpfData CalculateCrossProfiles(OutputWpfData notPricedOutputData)
         {
-            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
+            var systemIm = inputData.Systems.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentSystem.Name);
+            var allowedCrossProfiles = inputData.CrossProfiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
 
-            notPricedOutputData = CalculateAngles(notPricedOutputData);
-            notPricedOutputData = CalculateProfile(notPricedOutputData);
-            
+            notPricedOutputData.CrossProfiles = allowedCrossProfiles.Where(im => !im.JointExists).ToList();
+
             var crossProfileIm = notPricedOutputData.CrossProfiles.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCrossProfile.Name);
             crossProfileIm = crossProfileIm ?? notPricedOutputData.CrossProfiles.FirstOrDefault();
             notPricedOutputData.CurrentCrossProfile.Name = crossProfileIm.Name;
             notPricedOutputData.CurrentCrossProfile.Count = Math.Round((notPricedOutputData.Height - notPricedOutputData.CrossProfileTolerance) / 1000, 2);
             notPricedOutputData.CurrentCrossProfile.Price = Math.Round(notPricedOutputData.CurrentCrossProfile.Count * crossProfileIm.PricePerCount, 2);
 
+            notPricedOutputData.ExtraCrossProfileAllowed = notPricedOutputData.Width > 1600; //todo: move to settings
+
+            if (!notPricedOutputData.ExtraCrossProfileAllowed)
+            {
+                notPricedOutputData.ExtraCrossProfileEnabled = false;
+            }
+
+            return notPricedOutputData;
+        }
+
+        private OutputWpfData Calculate(OutputWpfData notPricedOutputData)
+        {
+            notPricedOutputData = SetAllowedImProductsBySystem(notPricedOutputData);
+
+            notPricedOutputData = CalculateAngles(notPricedOutputData);
+            notPricedOutputData = CalculateProfile(notPricedOutputData);
+            notPricedOutputData = CalculateCrossProfiles(notPricedOutputData);
             notPricedOutputData = CalculateNet(notPricedOutputData);
 
             var cordIm = notPricedOutputData.Cords.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentCord.Name);
@@ -461,6 +485,11 @@ namespace Core
                                              notPricedOutputData.WorkPrice + 
                                              notPricedOutputData.OtherSpendingPrice +
                                              gLuePrice;
+
+            if (notPricedOutputData.ExtraCrossProfileEnabled)
+            {
+                currentsSum += notPricedOutputData.CurrentCrossProfile.Price;
+            }
 
             notPricedOutputData.TotalPrice = currentsSum;
 
