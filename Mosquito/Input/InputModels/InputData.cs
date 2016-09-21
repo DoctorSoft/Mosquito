@@ -14,6 +14,7 @@ namespace Input.InputModels
         public List<CrossMountIm> CrossMounts { get; set; }
         public List<KnobIm> Knobs { get; set; }
         public List<ExtraDetailIm> ExtraDetails { get; set; }
+        public List<ExtraMountIm> ExtraMounts { get; set; }
         public List<PackageDetailIm> PackageDetails { get; set; } 
         public SettingsIm Settings { get; set; } 
     }

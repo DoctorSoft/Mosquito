@@ -11,8 +11,9 @@
         Mounts = 7,
         CrossMounts = 8,
         Knobs = 9,
-        ExtraDetails = 10,
-        PackageDetails = 11,
-        Settings = 12
+        ExtraMounts = 10,
+        ExtraDetails = 11,
+        PackageDetails = 12,
+        Settings = 13
     }
 }
