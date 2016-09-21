@@ -361,6 +361,7 @@ namespace Input.Implementation
                 var systems = (worksheet.Cells[rowIndex, (int)ColumnName.Systems] as Excel.Range).Value;
                 var count = (worksheet.Cells[rowIndex, (int)ColumnName.Count] as Excel.Range).Value;
                 var clincherCount = (worksheet.Cells[rowIndex, (int)ColumnName.ClincherCount] as Excel.Range).Value;
+                var felt = (worksheet.Cells[rowIndex, (int)ColumnName.Felt] as Excel.Range).Value;
 
                 if (id == null || name == null || price == null)
                 {
@@ -375,6 +376,7 @@ namespace Input.Implementation
                     Systems = systems == null ? new List<int>() : ((string)systems.ToString()).Split(',').Select(int.Parse).ToList(),
                     Count = int.Parse(count.ToString()),
                     ClincherCount = int.Parse(clincherCount.ToString()),
+                    Felt = felt != null
                 });
             }
 

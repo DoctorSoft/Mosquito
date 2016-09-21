@@ -2,6 +2,7 @@
 {
     public enum PackageDetail
     {
-        Clincher = 0
+        Clincher = 0, 
+        Felt = 1
     }
 }

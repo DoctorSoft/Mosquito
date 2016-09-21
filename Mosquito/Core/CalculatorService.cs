@@ -342,6 +342,18 @@ namespace Core
                 });
             }
 
+            if (mountIm.Felt)
+            {
+                var felt = inputData.PackageDetails[(int)PackageDetail.Felt];
+                var feltCount = Math.Round(((notPricedOutputData.Width * notPricedOutputData.Height) / 1000000), 2);
+                notPricedOutputData.RequiredExtraDetails.Add(new CurrentExtraDetail
+                {
+                    Name = felt.Name + " (" + notPricedOutputData.CurrentMount.Name + ")",
+                    Count = feltCount,
+                    Price = feltCount * felt.PricePerCount
+                });
+            }
+
             return notPricedOutputData;
         }
 

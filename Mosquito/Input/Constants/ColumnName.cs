@@ -12,6 +12,7 @@
         Count = 5,
         Joint = 6,
         ClincherCount = 6,
-        Inner = 7
+        Inner = 7,
+        Felt = 7
     }
 }
