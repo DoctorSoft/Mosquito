@@ -23,6 +23,8 @@ namespace OutputWPF.OutputWPFModels
 
         public CurrentCrossProfile CurrentCrossProfile { get; set; }
 
+        public CurrentCrossProfile CurrentExtraCrossProfile { get; set; }
+
         public CurrentCrossProfile CurrentCrossProfileWithGroove { get; set; }
 
         public bool ExtraCrossProfileAllowed { get; set; }

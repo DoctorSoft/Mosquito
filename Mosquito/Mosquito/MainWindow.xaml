@@ -101,7 +101,6 @@
         <ComboBox Name="AdditionalCrossWithoutGrooveComboBox" HorizontalAlignment="Left" Margin="178,386,0,0" VerticalAlignment="Top" Width="250"/>
         <CheckBox Name="AdditionalCrossWithoutGrooveCheckBox" Content="Учитывать" HorizontalAlignment="Left" Margin="438,391,0,0" VerticalAlignment="Top" Click="AdditionalCrossWithoutGrooveCheckBox_Click"/>
         <Label Name="AdditionalCrossWithoutGroovePriceLabel" HorizontalAlignment="Left" Margin="537,386,0,0" VerticalAlignment="Top"/>
-        <Label Name="AdditionalCrossWithoutGroovePriceLabel1" HorizontalAlignment="Left" Margin="537,386,0,0" VerticalAlignment="Top"/>
         <Label Content="р." HorizontalAlignment="Left" Margin="593,386,0,0" VerticalAlignment="Top"/>
 
         <!-- additional cross with groove-->
@@ -194,6 +193,6 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
-        <Label Content="Распилить на 2 части" HorizontalAlignment="Left" Margin="178,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.632,0.538"/>
+        <Label Name="DivideCrossProfileForTwoLabel" Content="Распилить на 2 части" HorizontalAlignment="Left" Margin="178,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.632,0.538"/>
     </Grid>
 </Window>

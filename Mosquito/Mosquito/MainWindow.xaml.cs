@@ -82,6 +82,11 @@ namespace Mosquito
             comboBox.ItemsSource = products.Select(im => im.Name);
             comboBox.SelectedIndex = comboBox.Items.IndexOf(currentProduct.Name);
 
+            if (priceLabel != null)
+            {
+                priceLabel.Content = currentProduct.Price;
+            }
+
             if (sizeLabel == null && sizeSingleUpDown == null)
             {
                 return;
@@ -95,7 +100,6 @@ namespace Mosquito
             {
                 sizeSingleUpDown.Value = currentProduct.Count == 0 ? 1 : (float) currentProduct.Count;
             }
-            priceLabel.Content = currentProduct.Price;
 
         }
 
@@ -116,7 +120,7 @@ namespace Mosquito
                 checkBox.IsEnabled = true;
             }
 
-            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, sizeLabel, products, currentProduct);
+            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, priceLabel, products, currentProduct);
 
         }
 
@@ -137,7 +141,9 @@ namespace Mosquito
                 checkBox.IsEnabled = true;
             }
 
-            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, sizeLabel, products, currentProduct);
+            DivideCrossProfileForTwoLabel.Visibility = checkBox.IsChecked.Value ? Visibility.Visible : Visibility.Hidden;
+
+            SetProductData(comboBox, sizeSingleUpDown, sizeLabel, priceLabel, products, currentProduct);
 
         }
 
@@ -161,8 +167,8 @@ namespace Mosquito
 
             SetProductData(ProfileComboBox, null, ProfileCountLabel, ProfilePriceLabel, data.Profiles, data.CurrentProfile);
             SetProductData(CrossProfileComboBox, null, CrossProfileCountLabel, CrossProfilePriceLabel, data.CrossProfiles, data.CurrentCrossProfile);
-            SetAdditionalCrossProfileData(AdditionalCrossWithoutGrooveComboBox, null, null, null, data.CrossProfiles.Where(im => im.Name == data.CurrentCrossProfile.Name).ToList(), data.CurrentCrossProfile, AdditionalCrossWithoutGrooveCheckBox);
-            SetAdditionalCrossProfileWithGrooveData(AdditionalCrossWithGrooveComboBox, null, null, null, data.CrossProfilesWithGroove, data.CurrentCrossProfileWithGroove, AdditionalCrossWithGrooveCheckBox);
+            SetAdditionalCrossProfileData(AdditionalCrossWithoutGrooveComboBox, null, null, AdditionalCrossWithoutGroovePriceLabel, data.CrossProfiles.Where(im => im.Name == data.CurrentExtraCrossProfile.Name).ToList(), data.CurrentExtraCrossProfile, AdditionalCrossWithoutGrooveCheckBox);
+            SetAdditionalCrossProfileWithGrooveData(AdditionalCrossWithGrooveComboBox, null, null, AdditionalCrossWithGroovePriceLabel, data.CrossProfilesWithGroove, data.CurrentCrossProfileWithGroove, AdditionalCrossWithGrooveCheckBox);
             SetProductData(NetComboBox, null, NetCountLabel, NetPriceLabel, data.Nets, data.CurrentNet);
             SetProductData(CordComboBox, null, CordCountLabel, CordPriceLabel, data.Cords, data.CurrentCord);
             SetProductData(AngleComboBox, AngleCountSingleUpDown, null, AnglePriceLabel, data.Angles, data.CurrentAngle);
