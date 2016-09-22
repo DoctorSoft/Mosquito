@@ -301,6 +301,7 @@ namespace Core
             notPricedOutputData.Knobs = inputData.Knobs.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Nets = inputData.Nets.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.Profiles = inputData.Profiles.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
+            notPricedOutputData.ExtraMounts = inputData.ExtraMounts.Where(im => im.Systems.Contains(systemIm.Id)).ToList();
             notPricedOutputData.RequiredExtraDetails = new List<CurrentExtraDetail>();
 
             return notPricedOutputData;
@@ -441,11 +442,38 @@ namespace Core
 
         private OutputWpfData CalculateExtraMounts(OutputWpfData notPricedOutputData)
         {
+            var currentMountId = notPricedOutputData.Mounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentMount.Name).Id;
+            notPricedOutputData.ExtraMounts = notPricedOutputData.ExtraMounts.Where(im => im.AllowedMounts.Contains(currentMountId)).ToList();
+
+            int crossProfilesCount = 1;
+
+            if (notPricedOutputData.ExtraCrossProfileEnabled)
+            {
+                crossProfilesCount = 2;
+            }
+
+            if (notPricedOutputData.ExtraCrossProfileWithGrooveEnabled)
+            {
+                crossProfilesCount = 3;
+            }
+
             var extraMountIm = notPricedOutputData.ExtraMounts.FirstOrDefault(im => im.Name == notPricedOutputData.CurrentExtraMount.Name);
             extraMountIm = extraMountIm ?? notPricedOutputData.ExtraMounts.FirstOrDefault();
             notPricedOutputData.CurrentExtraMount.Name = extraMountIm.Name;
-            notPricedOutputData.CurrentExtraMount.Count = extraMountIm.Count;
+            notPricedOutputData.CurrentExtraMount.Count = extraMountIm.Count * crossProfilesCount;
             notPricedOutputData.CurrentExtraMount.Price = Math.Round(notPricedOutputData.CurrentExtraMount.Count * extraMountIm.PricePerCount, 2);
+
+            if (extraMountIm.ClincherCount != 0)
+            {
+                var clincher = inputData.PackageDetails[(int)PackageDetail.Clincher];
+                var count = extraMountIm.ClincherCount * crossProfilesCount;
+                notPricedOutputData.RequiredExtraDetails.Add(new CurrentExtraDetail
+                {
+                    Name = clincher.Name + " (" + extraMountIm.Name + ")",
+                    Count = count,
+                    Price = clincher.PricePerCount * count
+                });
+            }
 
             return notPricedOutputData;
         }
@@ -560,6 +588,7 @@ namespace Core
 
             currentsSum += notPricedOutputData.CurrentExtraCrossProfile.Price;
             currentsSum += notPricedOutputData.CurrentCrossProfileWithGroove.Price;
+            currentsSum += notPricedOutputData.CurrentExtraMount.Price;
 
             notPricedOutputData.TotalPrice = currentsSum;
 

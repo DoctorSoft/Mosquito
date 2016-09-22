@@ -98,7 +98,7 @@ namespace Mosquito
             }
             else
             {
-                sizeSingleUpDown.Value = currentProduct.Count == 0 ? 1 : (float) currentProduct.Count;
+                sizeSingleUpDown.Value = (float) currentProduct.Count;
             }
 
         }

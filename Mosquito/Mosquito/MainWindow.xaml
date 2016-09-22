@@ -113,7 +113,7 @@
         <!-- additional mount price-->
         <Label Content="Доп. крепление:" HorizontalAlignment="Left" Margin="10,446,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="ExtraMountComboBox" HorizontalAlignment="Left" Margin="178,446,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="ExtraMountComboBox_SelectionChanged"/>
-        <xctk:SingleUpDown FormatString="N0" Increment="1" Maximum="5000" Minimum="1" Height="23" Margin="438,446,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ExtraMountCountSingleUpDown"  ValueChanged="ExtraMountCountSingleUpDown_ValueChanged"/>
+        <xctk:SingleUpDown Minimum="0" Height="23" Margin="438,446,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ExtraMountCountSingleUpDown"  ValueChanged="ExtraMountCountSingleUpDown_ValueChanged"/>
         <Label Name="ExtraMountMeasureLabel" Content="шт." HorizontalAlignment="Left" Margin="488,446,0,0" VerticalAlignment="Top"/>
         <Label Name="ExtraMountPriceLabel" HorizontalAlignment="Left" Margin="558,446,0,0" VerticalAlignment="Top"/>
         <Label Name="ExtraMountPriceMeasureLabel" Content="р." HorizontalAlignment="Left" Margin="593,446,0,0" VerticalAlignment="Top"/>
